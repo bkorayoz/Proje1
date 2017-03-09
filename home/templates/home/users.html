@@ -1,0 +1,58 @@
+{% extends 'home/layout.html' %}
+
+{% block title %}Users{% endblock %}
+
+{% block content %}
+
+<form method="POST" action="/addUser/">
+    {% csrf_token %}
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Add User
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-s" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add User</h4>
+      </div>
+      <div class="modal-body">
+      
+       <div class="input-group">
+  <input type="text" class="form-control" name="userName" placeholder="Username" aria-describedby="basic-addon1">
+</div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% if Users %}          
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <td><b>Username</b></td>
+      </tr>
+      <div><h3>	</h3></div>
+    </thead>
+    
+    <tbody>
+    {% for user in Users %}
+      <tr>
+        <td>
+        {{ user.userName }} 
+		</td>
+      </tr>
+{% endfor %} 
+	</tbody>
+    
+  </table>
+{% endif %}
+   </form>
+   {% endblock %}
