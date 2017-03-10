@@ -1,6 +1,5 @@
 {% extends "home/layout.html" %}
-
-{% block title %}Restaurants{% endblock %}
+{% block title%}Restaurants{%endblock%}
 
 {% block content %}
 
@@ -8,37 +7,47 @@
 	<div class="row">
 
 		<section class="content">
-			<h1>Table Filter</h1>
+			<h1>Restaurants</h1>
 			<div class="col-md-8 col-md-offset-2">
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<div class="pull-right">
 							<div class="btn-group">
-								<button type="button" class="btn btn-success btn-filter" >Pagado</button>
-								<button type="button" class="btn btn-warning btn-filter" >Pendiente</button>
-								<button type="button" class="btn btn-danger btn-filter" >Cancelado</button>
-								<button type="button" class="btn btn-default btn-filter">Todos</button>
+								<button type="button" class="btn btn-success btn-filter">Add
+									Restaurant</button>
+								<button type="button" class="btn btn-warning btn-filter">Selam</button>
+
 							</div>
 						</div>
 						<div class="table-container">
 							<table class="table table-filter">
 								<tbody>
-								 {% for obj in rests %}
+									{% for obj in rests %}
 									<tr>
 										<td>
 											<div class="media">
-												<a href="#" class="pull-left">
-													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
+												<a href="#" class="pull-left"> <img
+													src="/static/images/yemekicon.ico" class="media-photo">
 												</a>
 												<div class="media-body">
-													<span class="media-meta pull-right">Febrero 13, 2016</span>
-													<h4 class="title">
-														{{obj.name}}
-														<span class=" pagado">(Pagado)</span>
-													</h4>
-													<p class="summary">Ut enim ad minim veniam, quis nostrud exercitation...</p>
+													<h4 class="title pull-left">{{obj.name}}</h4>
+
+
 												</div>
+
 											</div>
+
+										</td>
+										<td>
+											<div class="pull-right action-buttons">
+												<a href="http://www.jquery2dotnet.com"><span
+													class="glyphicon glyphicon-pencil"></span></a> <a
+													href="http://www.jquery2dotnet.com" class="trash"><span
+													class="glyphicon glyphicon-trash"></span></a> <a
+													href="http://www.jquery2dotnet.com" class="flag"><span
+													class="glyphicon glyphicon-flag"></span></a>
+											</div>
+
 										</td>
 									</tr>
 
@@ -49,18 +58,16 @@
 						</div>
 					</div>
 				</div>
-				<div class="content-footer">
-
-				</div>
+				<div class="content-footer"></div>
 			</div>
 		</section>
 
 	</div>
 </div>
 
-
-
-
-
 {% endblock %}
+
+
+
+
 
