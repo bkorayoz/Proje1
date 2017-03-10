@@ -16,8 +16,9 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.views.generic import ListView, DetailView
 from restaurant.models import Restaurant
+from . import views
 
 
 urlpatterns = [
-    url(r'^$', ListView.as_view(queryset=Restaurant.objects.all().order_by("name"), template_name="restaurant/restaurantList.html"))
+    url(r'^$', views.restaurants, name='restaurants')
 ]
