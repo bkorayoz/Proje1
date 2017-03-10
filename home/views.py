@@ -19,6 +19,11 @@ def users(request):
         return render(request, 'home/users.html',context)
     except Users.DoesNotExist:
         return render(request, 'home/users.html')
+def deleteUser(request):
+    if request.method == 'POST':
+        delete_this_id = request.POST.get('id', None)
+        Users.objects.filter(id=delete_this_id).delete()
+        return HttpResponseRedirect('/users/')
  
 def addUser(request):
      if request.method == 'POST':
@@ -32,4 +37,4 @@ def addUser(request):
             newUser.save()
             return HttpResponseRedirect('/users/')
      else:
-        return render(request, 'users')
+        return HttpResponseRedirect('/users/')
