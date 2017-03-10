@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from home.models import Users
 from django.template import Context, Template
+from django.http import HttpResponseRedirect
 
 def home(request):
     return render(request, 'home/home.html')
@@ -29,6 +30,6 @@ def addUser(request):
         except Users.DoesNotExist:
             newUser = Users(userName = enteredUserName, userMail = enteredEmail)
             newUser.save()
-            return render(request, 'home/users.html')
+            return HttpResponseRedirect('/users/')
      else:
-        return render(request, 'home/users.html')
+        return render(request, 'users')
