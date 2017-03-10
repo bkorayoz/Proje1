@@ -22,10 +22,12 @@ def users(request):
 def addUser(request):
      if request.method == 'POST':
         enteredUserName = request.POST.get('userName', None)
+        enteredEmail = request.POST.get('userMail', None)
+        
         try:
             data = Users.objects.get(userName = enteredUserName)
         except Users.DoesNotExist:
-            newUser = Users(userName = enteredUserName)
+            newUser = Users(userName = enteredUserName, userMail = enteredEmail)
             newUser.save()
             return render(request, 'home/users.html')
      else:
