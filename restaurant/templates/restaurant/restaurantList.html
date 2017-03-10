@@ -3,9 +3,64 @@
 {% block title %}Restaurants{% endblock %}
 
 {% block content %}
-                <h1>Hi.... =)</h1>
-                {% for obj in object_list %}
-                <h5>{{obj.name}}</h5>
-                {% endfor %}
+
+<div class="container">
+	<div class="row">
+
+		<section class="content">
+			<h1>Table Filter</h1>
+			<div class="col-md-8 col-md-offset-2">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="pull-right">
+							<div class="btn-group">
+								<button type="button" class="btn btn-success btn-filter" >Pagado</button>
+								<button type="button" class="btn btn-warning btn-filter" >Pendiente</button>
+								<button type="button" class="btn btn-danger btn-filter" >Cancelado</button>
+								<button type="button" class="btn btn-default btn-filter">Todos</button>
+							</div>
+						</div>
+						<div class="table-container">
+							<table class="table table-filter">
+								<tbody>
+								 {% for obj in rests %}
+									<tr>
+										<td>
+											<div class="media">
+												<a href="#" class="pull-left">
+													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
+												</a>
+												<div class="media-body">
+													<span class="media-meta pull-right">Febrero 13, 2016</span>
+													<h4 class="title">
+														{{obj.name}}
+														<span class=" pagado">(Pagado)</span>
+													</h4>
+													<p class="summary">Ut enim ad minim veniam, quis nostrud exercitation...</p>
+												</div>
+											</div>
+										</td>
+									</tr>
+
+									{% endfor %}
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="content-footer">
+
+				</div>
+			</div>
+		</section>
+
+	</div>
+</div>
+
+
+
+
 
 {% endblock %}
+
