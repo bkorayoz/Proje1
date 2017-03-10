@@ -14,9 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-from . import views
+from django.views.generic import ListView, DetailView
+from restaurant.models import Restaurant
 
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    url(r'^$', ListView.as_view(queryset=Restaurant.objects.all().order_by("name"), template_name="restaurant/restaurantList.html"))
 ]
