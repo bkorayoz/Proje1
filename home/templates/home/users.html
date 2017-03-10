@@ -3,7 +3,6 @@
 {% block title %}Users{% endblock %}
 
 {% block content %}
-
 <form method="POST">
     {% csrf_token %}
 <!-- Button trigger modal -->
@@ -17,11 +16,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">+Add User</h4>
+        <h4 class="modal-title" id="myModalLabel">Add User</h4>
       </div>
       <div class="modal-body">
       
        <div class="input-group">
+       
   <input type="text" class="form-control" name="userName" placeholder="Username" aria-describedby="basic-addon1">
   <input type="email" class="form-control" name="userMail" placeholder="E-Mail" aria-describedby="basic-addon1">
 </div>
@@ -41,8 +41,10 @@
         <td><b>Username</b></td>
 
         <td><b>Email</b></td>
+        <td><b>Delete User</b></td>
       </tr>
-      <div><h3>	</h3></div>
+     <br>
+     <br>
     </thead>
     
     <tbody>
@@ -58,6 +60,7 @@
 		<button type="submit" name="id" value="{{user.id}}" formaction="/deleteUser/" class="btn btn-default" aria-label="Left Align">
   <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
 </button>
+
 		</td>
       </tr>
 {% endfor %} 
