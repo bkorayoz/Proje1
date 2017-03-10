@@ -6,7 +6,7 @@
 <form method="POST">
     {% csrf_token %}
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+<button type="button" class="btn btn-yesil btn-lg" data-toggle="modal" data-target="#myModal">
   Add User
 </button>
 
@@ -29,7 +29,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" formaction="/addUser/" value="add" class="btn btn-primary">Add</button>
+        <button type="submit" formaction="/addUser/" value="add" class="btn btn-yesil">Add</button>
       </div>
     </div>
   </div>
@@ -57,7 +57,7 @@
         {{ user.userMail }} 
 		</td>
 		<td>
-		<button type="submit" name="id" value="{{user.id}}" formaction="/deleteUser/" class="btn btn-default" aria-label="Left Align">
+		<button type="submit" name="id" value="{{user.id}}" formaction="/deleteUser/" class="btn btn-danger btn-xs" aria-label="Left Align">
   <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
 </button>
 
