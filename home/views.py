@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from home.models import Users
 from django.template import Context, Template
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 
 def home(request):
     return render(request, 'home/home.html')
@@ -15,8 +16,7 @@ def grading(request):
 def users(request):
     try:
         users = Users.objects.values()
-        context = Context({'Users':users})
-        return render(request, 'home/users.html',context)
+        return render(request, 'home/users.html',Context({'Users':users}))
     except Users.DoesNotExist:
         return render(request, 'home/users.html')
 def deleteUser(request):
@@ -36,5 +36,7 @@ def addUser(request):
             newUser = Users(userName = enteredUserName, userMail = enteredEmail)
             newUser.save()
             return HttpResponseRedirect('/users/')
+        
+        return HttpResponseRedirect('/users/')
      else:
         return HttpResponseRedirect('/users/')
