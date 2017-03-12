@@ -3,7 +3,7 @@ from home.models import Users
 from django.template import Context, Template
 from django.http import HttpResponseRedirect
 from django.contrib import messages
-
+from restaurant.models import Restaurant
 def home(request):
     return render(request, 'home/home.html')
 
@@ -11,7 +11,9 @@ def statistics(request):
      return render(request, 'home/statistics.html')
  
 def grading(request):
-     return render(request, 'home/grading.html')
+     users = Users.objects.values()
+     rests = Restaurant.objects.values()
+     return render(request, 'home/grading.html',Context({'Users':users,'Restaurant':rests}))
  
 def users(request):
     try:
