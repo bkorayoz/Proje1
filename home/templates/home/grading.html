@@ -2,4 +2,27 @@
 
 {% block title %}Grading{% endblock %}
 
-{% block content %}Selam tatlim(Grading) :*{% endblock %}
+{% block content %}{% if Users %}          
+  <table class="table table-bordered">
+ 
+      <tr>
+        <td></td>
+{% for user in Users %}
+        <th scope="col">
+        {{ user.userName }} 
+		</th>
+		{% endfor %} 
+	 </tr>
+	  
+		{% for rest in Restaurant %}
+		<tr>
+		<th scope="row">
+		{{ rest.name }} 
+		</th>
+		</tr>
+		{% endfor %}
+		 
+
+
+  </table>
+{% endif %}{% endblock %}
