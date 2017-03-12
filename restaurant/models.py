@@ -12,3 +12,11 @@ class Restaurant(models.Model):
     def __str__(self):
         return self.name
 
+    def deleteRest(self, deleteId):
+        self.objects.filter(id=deleteId).delete()
+
+    def updateStatus(self, newStatus, updateId):
+        self.objects.get(id=updateId).update(status = newStatus)
+
+
+

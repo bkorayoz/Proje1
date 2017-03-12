@@ -1,7 +1,51 @@
 {% extends "home/layout.html" %}
+
 {% block title%}Restaurants{%endblock%}
 
 {% block content %}
+
+
+<div class="md-modal md-effect-16" id="modal-16">
+	<div class="md-content">
+		<h3>Add New Restaurant</h3>
+		<div>
+			<div class="restNameInput">
+			    <label class="pull-left">Restaurant Name: </label>
+				<input type="text"
+					class="form-control" name="inputRestName"
+					placeholder="enter restaurant name here"
+					aria-describedby="basic-addon1">
+			</div>
+
+
+	        <div class="weatherInput">
+	        	<label>Sensable for weather ?   </label>
+				<input type="checkbox"
+					   data-toggle="toggle"
+					   data-on="Yes" data-off="No"
+					   data-onstyle="success" data-offstyle="danger"
+					   data-size="mini">
+	        </div>
+
+			<div class="transportInput">
+				<label>araba </label>
+				<input type="checkbox"
+					   data-toggle="toggle"
+					   data-on="Yes" data-off="No"
+					   data-onstyle="success" data-offstyle="danger"
+					   data-size="mini">
+			</div>
+
+
+
+			<div class="btn-group">
+				<button class="btn btn-success">Add Restaurant</button>
+				<button class="btn btn-warning md-close">Close me!</button>
+			</div>
+
+		</div>
+	</div>
+</div>
 
 <div class="container">
 	<div class="row">
@@ -13,9 +57,10 @@
 					<div class="panel-body">
 						<div class="pull-right">
 							<div class="btn-group">
-								<button type="button" class="btn btn-success btn-filter">Add
-									Restaurant</button>
-								<button type="button" class="btn btn-warning btn-filter">Selam</button>
+								<button
+									class="btn btn-success md-trigger md-setperspective"
+									data-modal="modal-16">Add Restaurant</button>
+								<button type="button" class="btn btn-warning">Selam</button>
 
 							</div>
 						</div>

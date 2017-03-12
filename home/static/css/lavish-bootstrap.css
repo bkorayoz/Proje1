@@ -2944,6 +2944,14 @@ select[multiple].input-lg,
     color: #5cb85c;
     background-color: #fff; }
 
+.btn-success1 {
+color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+
+
+}
+
 .btn-info {
   color: #fff;
   background-color: #5bc0de;
@@ -2977,6 +2985,13 @@ select[multiple].input-lg,
   .btn-warning .badge {
     color: #f0ad4e;
     background-color: #fff; }
+
+.btn-warning1{
+	background-color: #d9534f;
+    border-color: #d43f3a;
+	 color: #fff;
+
+}
 
 .btn-danger {
   color: #fff;
@@ -5637,48 +5652,48 @@ button.close {
   .hidden-print {
     display: none !important; } }
 
- .btn-yesil { 
-  color: #F0F2ED; 
-  background-color: #65A730; 
-  border-color: #518045; 
-} 
- 
-.btn-yesil:hover, 
-.btn-yesil:focus, 
-.btn-yesil:active, 
-.btn-yesil.active, 
-.open .dropdown-toggle.btn-yesil { 
-  color: #F0F2ED; 
-  background-color: #ADCA5F; 
-  border-color: #518045; 
-} 
- 
-.btn-yesil:active, 
-.btn-yesil.active, 
-.open .dropdown-toggle.btn-yesil { 
-  background-image: none; 
-} 
- 
-.btn-yesil.disabled, 
-.btn-yesil[disabled], 
-fieldset[disabled] .btn-yesil, 
-.btn-yesil.disabled:hover, 
-.btn-yesil[disabled]:hover, 
-fieldset[disabled] .btn-yesil:hover, 
-.btn-yesil.disabled:focus, 
-.btn-yesil[disabled]:focus, 
-fieldset[disabled] .btn-yesil:focus, 
-.btn-yesil.disabled:active, 
-.btn-yesil[disabled]:active, 
-fieldset[disabled] .btn-yesil:active, 
-.btn-yesil.disabled.active, 
-.btn-yesil[disabled].active, 
-fieldset[disabled] .btn-yesil.active { 
-  background-color: #65A730; 
-  border-color: #518045; 
-} 
- 
-.btn-yesil .badge { 
-  color: #65A730; 
-  background-color: #F0F2ED; 
+ .btn-yesil {
+  color: #F0F2ED;
+  background-color: #65A730;
+  border-color: #518045;
+}
+
+.btn-yesil:hover,
+.btn-yesil:focus,
+.btn-yesil:active,
+.btn-yesil.active,
+.open .dropdown-toggle.btn-yesil {
+  color: #F0F2ED;
+  background-color: #ADCA5F;
+  border-color: #518045;
+}
+
+.btn-yesil:active,
+.btn-yesil.active,
+.open .dropdown-toggle.btn-yesil {
+  background-image: none;
+}
+
+.btn-yesil.disabled,
+.btn-yesil[disabled],
+fieldset[disabled] .btn-yesil,
+.btn-yesil.disabled:hover,
+.btn-yesil[disabled]:hover,
+fieldset[disabled] .btn-yesil:hover,
+.btn-yesil.disabled:focus,
+.btn-yesil[disabled]:focus,
+fieldset[disabled] .btn-yesil:focus,
+.btn-yesil.disabled:active,
+.btn-yesil[disabled]:active,
+fieldset[disabled] .btn-yesil:active,
+.btn-yesil.disabled.active,
+.btn-yesil[disabled].active,
+fieldset[disabled] .btn-yesil.active {
+  background-color: #65A730;
+  border-color: #518045;
+}
+
+.btn-yesil .badge {
+  color: #65A730;
+  background-color: #F0F2ED;
 }
