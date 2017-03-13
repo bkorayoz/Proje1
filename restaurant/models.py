@@ -3,11 +3,11 @@ from _datetime import date
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=200)
-    transportation = models.BooleanField()
-    weatherSensetion = models.BooleanField()
-    status = models.BooleanField()
-    date = models.DateField()
-    counter = models.IntegerField()
+    transportation = models.BooleanField(default=False)
+    weatherSensetion = models.BooleanField(default=False)
+    status = models.BooleanField(default=True)
+    date = models.DateField(null=True, blank=True)
+    counter = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name

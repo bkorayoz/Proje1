@@ -9,12 +9,16 @@
 	<div class="md-content">
 		<h3>Add New Restaurant</h3>
 		<div>
+		<form action="/addRestaurant/" method="post">
+
+
 			<div class="restNameInput">
 			    <label class="pull-left">Restaurant Name: </label>
 				<input type="text"
 					class="form-control" name="inputRestName"
 					placeholder="enter restaurant name here"
-					aria-describedby="basic-addon1">
+					aria-describedby="basic-addon1"
+					value="{{rest_name}}">
 			</div>
 
 
@@ -42,7 +46,7 @@
 				<button class="btn btn-success">Add Restaurant</button>
 				<button class="btn btn-warning md-close">Close me!</button>
 			</div>
-
+</form>
 		</div>
 	</div>
 </div>
