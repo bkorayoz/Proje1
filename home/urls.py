@@ -24,4 +24,6 @@ urlpatterns = [
     url(r'^statistics/$', views.statistics, name='statistics'),
     url(r'^addUser/$', views.addUser, name='adduser'),
     url(r'^deleteUser/$', views.deleteUser, name='deleteuser'),
+    url(r'^gradeIt/$', views.gradeIt, name='gradeIt'),
+    url(r'^saveGrades/$', views.saveGrades, name='saveGrades'),
 ]

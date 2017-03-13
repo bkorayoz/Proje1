@@ -12,8 +12,7 @@ def statistics(request):
  
 def grading(request):
      users = Users.objects.values()
-     rests = Restaurant.objects.values()
-     return render(request, 'home/grading.html',Context({'Users':users,'Restaurant':rests}))
+     return render(request, 'home/grading.html',Context({'Users':users}))
  
 def users(request):
     try:
@@ -42,3 +41,20 @@ def addUser(request):
         return HttpResponseRedirect('/users/')
      else:
         return HttpResponseRedirect('/users/')
+    
+def gradeIt(request):
+    if request.method == 'POST':
+        clickedUserId = request.POST.get('user_id')
+        rests = Restaurant.objects.values()
+        return render(request, 'home/gradeIt.html',Context({'user':Users.objects.get(id=clickedUserId),'Restaurant':rests}))
+
+def saveGrades(request):
+    if  request.method == 'POST':
+        rests = Restaurant.objects.values()
+        return HttpResponseRedirect('/grading/')
+        
+        
+        
+        
+        
+        
