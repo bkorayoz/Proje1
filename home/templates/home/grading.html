@@ -2,28 +2,20 @@
 
 {% block title %}Grading{% endblock %}
 
-{% block content %}{% if Users %}          
-  <table class="table table-bordered">
- 
-      <tr>
-        <td></td>
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+{% if Users %}          
+<table class="table table-bordered">
+
 {% for user in Users %}
-        <th scope="col">
-        {{ user.userName }} 
-		</th>
-		{% endfor %} 
-	 </tr>
-	  
-		{% for rest in Restaurant %}z
-		<tr>
-		<th scope="row">
-		{{ rest.name }} 
-		</th>
-		
-		</tr>
-		{% endfor %}
-		 
+     <tbody>  <tr> <td>{{ user.userName }}</td> <td> <button type="submit" formaction="/gradeIt/" name="user_id" value= "{{user.id}}" class="btn btn-yesil btn-xs">
+  Grade them!
+</button> </td> </tr>
+{% endfor %}
+</tbody>
+</table>
+{% endif %}
 
-
-  </table>
-{% endif %}{% endblock %}
+</form>
+{% endblock %}
