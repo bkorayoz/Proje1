@@ -56,14 +56,22 @@ def saveGrades(request):
          grades = request.POST.getlist('grade[]')
          rids = request.POST.getlist('rid[]')
          uid = request.POST.get('uid')
+         userGrade =  Grade.objects.filter(user_id= uid)
          counter = len(grades)
          i=0
-         while i < counter:
-             newGrade = Grade(rest_id = rids[i], user_id = uid, grade = grades[i])
-             newGrade.save()
-             i = i + 1
+         
+         if userGrade.exists():
+             while i < counter:
+                 Grade.objects.select_related().filter(user_id = uid, rest_id = rids[i]).update(grade = grades[i])
+                 i = i + 1
+         else:
+             while i < counter:
+                 newGrade = Grade(rest_id = rids[i], user_id = uid, grade = grades[i])
+                 newGrade.save()
+                 i = i + 1
           
-         return HttpResponseRedirect('/grading/')
+    
+    return HttpResponseRedirect('/grading/')
         
         
         
