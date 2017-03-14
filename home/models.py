@@ -9,8 +9,6 @@ class Users(models.Model):
 
     def __str__(self):
         return self.userName
-    def __str__(self):
-        return self.userMail
     
 class Grade(models.Model):
     user = models.ForeignKey('Users', on_delete=models.CASCADE)

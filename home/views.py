@@ -1,9 +1,12 @@
 from django.shortcuts import render, render_to_response
-from home.models import Users
+from home.models import Users,Grade
 from django.template import Context, Template
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.contrib import messages
 from restaurant.models import Restaurant
+import logging
+
 def home(request):
     return render(request, 'home/home.html')
 
@@ -50,8 +53,17 @@ def gradeIt(request):
 
 def saveGrades(request):
     if  request.method == 'POST':
-        rests = Restaurant.objects.values()
-        return HttpResponseRedirect('/grading/')
+         grades = request.POST.getlist('grade[]')
+         rids = request.POST.getlist('rid[]')
+         uid = request.POST.get('uid')
+         counter = len(grades)
+         i=0
+         while i < counter:
+             newGrade = Grade(rest_id = rids[i], user_id = uid, grade = grades[i])
+             newGrade.save()
+             i = i + 1
+          
+         return HttpResponseRedirect('/grading/')
         
         
         

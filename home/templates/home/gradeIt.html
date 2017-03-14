@@ -6,12 +6,14 @@
 <form method="POST" >
     {% csrf_token %}
 <h2> Grade it for {{user.userName}} </h2>
+<input type="hidden" name="uid" value="{{user.id}}">
 
 
 <table class="table table-bordered">
 {% for r in Restaurant %}
 <tr><td>{{r.name}}</td>
-<td> <input type="number" name="grade_{{r.id}}" min="0" max="100" value="0"> </td>
+<td> <input type="number" name="grade[]" min="0" max="100" value="0"> </td>
+<input type="hidden" name="rid[]" value="{{r.id}}" >
 </tr>
 {% endfor %}
 </table>
