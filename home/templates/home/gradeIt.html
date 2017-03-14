@@ -1,0 +1,24 @@
+{% extends 'home/layout.html' %}
+
+{% block title %}Grade It{% endblock %}
+
+{% block content %}
+<form method="POST" >
+    {% csrf_token %}
+<h2> Grade it for {{user.userName}} </h2>
+
+
+<table class="table table-bordered">
+{% for r in Restaurant %}
+<tr><td>{{r.name}}</td>
+<td> <input type="number" name="grade_{{r.id}}" min="0" max="100" value="0"> </td>
+</tr>
+{% endfor %}
+</table>
+
+ <button type="submit" name="user_id" formaction="/saveGrades/" value= "{{user.id}}" class="btn btn-yesil btn-lg">
+  Submit!
+</button>
+
+</form>
+{% endblock %}
