@@ -2,7 +2,7 @@
 
 {% block title %}Grading{% endblock %}
 
-{% block content %}{% if Users %}          
+{% block content %}{% if Users %}           
   <table class="table table-bordered">
  
       <tr>
@@ -13,7 +13,6 @@
 		</th>
 		{% endfor %} 
 	 </tr>
-	  
 		{% for rest in Restaurant %}
 		<tr>
 		<th scope="row">
@@ -22,8 +21,6 @@
 		
 		</tr>
 		{% endfor %}
-		 
-
 
   </table>
 {% endif %}{% endblock %}
