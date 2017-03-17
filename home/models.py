@@ -14,3 +14,10 @@ class Grade(models.Model):
     user = models.ForeignKey('Users', on_delete=models.CASCADE)
     rest = models.ForeignKey('restaurant.Restaurant', on_delete=models.CASCADE)
     grade = models.IntegerField(default = '0')
+    
+class Constants(models.Model):
+    name = models.CharField(max_length = 30)
+    value = models.IntegerField()
+    
+    def __str__(self):
+        return self.name

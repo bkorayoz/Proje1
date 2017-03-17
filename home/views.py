@@ -1,5 +1,5 @@
 from django.shortcuts import render, render_to_response
-from home.models import Users,Grade
+from home.models import Users,Grade,Constants
 from django.template import Context, Template
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
@@ -15,7 +15,7 @@ def statistics(request):
  
 def grading(request):
      users = Users.objects.values()
-     return render(request, 'home/grading.html',Context({'Users':users}))
+     return render(request, 'home/grading.html',Context({'period':Constants.objects.filter(name = 'period'),'Users':users}))
  
 def users(request):
     try:
@@ -50,7 +50,25 @@ def gradeIt(request):
         clickedUserId = request.POST.get('user_id')
         rests = Restaurant.objects.values()
         return render(request, 'home/gradeIt.html',Context({'user':Users.objects.get(id=clickedUserId),'Restaurant':rests}))
-
+    
+def enterPeriod(request):
+    if request.method == 'POST':
+        entered_period = request.POST.get('period')
+        checkperiod = Constants.objects.filter(name = 'period')
+        if checkperiod.exists():
+            Constants.objects.get(name = 'period').update(value = entered_period)
+        else:
+            newCons = Constants(name = 'period', value = entered_period)
+            newCons.save()
+            
+        return HttpResponseRedirect('/grading/')
+    
+def editPeriod(request):
+    if  request.method == 'POST':
+        Grade.objects.all().delete()
+        Constants.objects.filter(name = 'period').delete()
+        return HttpResponseRedirect('/grading/')
+    
 def saveGrades(request):
     if  request.method == 'POST':
          grades = request.POST.getlist('grade[]')

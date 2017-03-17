@@ -5,9 +5,16 @@
 {% block content %}
 <form method="POST">
     {% csrf_token %}
-{% if Users %}          
-<table class="table table-bordered">
+{% if not period %}
+     <h3> Please enter the period before start grading:</h3>
+     <input type="number" name="period" min="30" max="200">
+<button type="submit" formaction="/enterPeriod/"   class="btn btn-yesil btn-lg"> Submit</button>
 
+{% elif Users %}
+{% for p in period %} 
+ <p class="bg-danger"><b>Current period:</b> {{ p.value }} <br> <i> You can change the period this will led to lose all your grade data </i> <br> <button type="submit" formaction="/editPeriod/" name="user_id" value= "{{user.id}}" class="btn btn-danger btn">Change it!</button></p>
+ {% endfor %}
+<table class="table table-bordered">
 {% for user in Users %}
      <tbody>  <tr> <td>{{ user.userName }}</td> <td> <button type="submit" formaction="/gradeIt/" name="user_id" value= "{{user.id}}" class="btn btn-yesil btn-xs">
   Grade them!
