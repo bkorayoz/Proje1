@@ -1,9 +1,12 @@
 from django.shortcuts import render, render_to_response
-from home.models import Users
+from home.models import Users,Grade,Constants
 from django.template import Context, Template
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.contrib import messages
 from restaurant.models import Restaurant
+import logging
+
 def home(request):
     return render(request, 'home/home.html')
 
@@ -12,7 +15,14 @@ def statistics(request):
  
 def grading(request):
      users = Users.objects.values()
-     return render(request, 'home/grading.html',Context({'Users':users}))
+     users_all = Users.objects.all()
+     flag = True
+     for u in users_all:
+         u_temp = Grade.objects.filter(user_id = u.id)   
+         if not u_temp:
+             flag = False    
+         
+     return render(request, 'home/grading.html',Context({'IsGradingDone':flag,'period':Constants.objects.filter(name = 'period'),'Users':users}))
  
 def users(request):
     try:
@@ -47,11 +57,46 @@ def gradeIt(request):
         clickedUserId = request.POST.get('user_id')
         rests = Restaurant.objects.values()
         return render(request, 'home/gradeIt.html',Context({'user':Users.objects.get(id=clickedUserId),'Restaurant':rests}))
-
+    
+def enterPeriod(request):
+    if request.method == 'POST':
+        entered_period = request.POST.get('period')
+        checkperiod = Constants.objects.filter(name = 'period')
+        if checkperiod.exists():
+            Constants.objects.get(name = 'period').update(value = entered_period)
+        else:
+            newCons = Constants(name = 'period', value = entered_period)
+            newCons.save()
+            
+        return HttpResponseRedirect('/grading/')
+    
+def editPeriod(request):
+    if  request.method == 'POST':
+        Grade.objects.all().delete()
+        Constants.objects.filter(name = 'period').delete()
+        return HttpResponseRedirect('/grading/')
+    
 def saveGrades(request):
     if  request.method == 'POST':
-        rests = Restaurant.objects.values()
-        return HttpResponseRedirect('/grading/')
+         grades = request.POST.getlist('grade[]')
+         rids = request.POST.getlist('rid[]')
+         uid = request.POST.get('uid')
+         userGrade =  Grade.objects.filter(user_id= uid)
+         counter = len(grades)
+         i=0
+         
+         if userGrade.exists():
+             while i < counter:
+                 Grade.objects.select_related().filter(user_id = uid, rest_id = rids[i]).update(grade = grades[i])
+                 i = i + 1
+         else:
+             while i < counter:
+                 newGrade = Grade(rest_id = rids[i], user_id = uid, grade = grades[i])
+                 newGrade.save()
+                 i = i + 1
+          
+    
+    return HttpResponseRedirect('/grading/')
         
         
         
