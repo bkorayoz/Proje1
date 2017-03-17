@@ -23,6 +23,8 @@
 </tbody>
 </table>
 {% endif %}
-
+{% if IsGradingDone %}
+<p class="bg-danger">Grading Done!! </p>
+{% endif %}
 </form>
 {% endblock %}

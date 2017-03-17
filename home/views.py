@@ -15,7 +15,14 @@ def statistics(request):
  
 def grading(request):
      users = Users.objects.values()
-     return render(request, 'home/grading.html',Context({'period':Constants.objects.filter(name = 'period'),'Users':users}))
+     users_all = Users.objects.all()
+     flag = True
+     for u in users_all:
+         u_temp = Grade.objects.filter(user_id = u.id)   
+         if not u_temp:
+             flag = False    
+         
+     return render(request, 'home/grading.html',Context({'IsGradingDone':flag,'period':Constants.objects.filter(name = 'period'),'Users':users}))
  
 def users(request):
     try:
