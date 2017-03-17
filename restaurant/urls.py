@@ -18,7 +18,11 @@ from django.views.generic import ListView, DetailView
 from restaurant.models import Restaurant
 from . import views
 
+app_name = 'restaurant'
 
 urlpatterns = [
-    url(r'^$', views.restaurants, name='restaurants')
+    url(r'^$', views.restaurants, name='restaurants'),
+    url(r'^addRestaurant$', views.addRestaurant, name='addRest'),
+    url(r'^deleteRestaurant/(?P<id>\d+)/$', views.deleteRestaurant, name='deleteRest')
+
 ]

@@ -1,6 +1,4 @@
-{% extends "home/layout.html" %}
-
-{% block title%}Restaurants{%endblock%}
+{% extends "home/layout.html" %} {% block title%}Restaurants{%endblock%}
 
 {% block content %}
 
@@ -9,44 +7,52 @@
 	<div class="md-content">
 		<h3>Add New Restaurant</h3>
 		<div>
-		<form action="/addRestaurant/" method="post">
+
+			{% if error_message %}
+			<p>
+				<strong>{{ error_message }}</strong>
+			</p>
+			{% endif %}
+
+			<form class="form-horizontal" action="{% url 'restaurant:addRest' %}"
+				method="post">
+				{% csrf_token %}
+				<div class="restNameInput">
+					<label class="pull-left">Restaurant Name: </label> <input
+						type="text" class="form-control" name="name"
+						placeholder="enter restaurant name here"
+						aria-describedby="basic-addon1" value="{{rest_name}}" required>
+
+				</div>
+				<hr></hr>
+				<div class="weatherInput" style = 'float:left;'>
+					<label class="text-left">Sensable for weather ? &nbsp </label> <input
+						type="checkbox" data-toggle="toggle" data-on="Yes" data-off="No"
+						name="weatherSensetion" data-onstyle="success"
+						data-offstyle="warning" data-size="mini">
+
+				</div>
+				<hr></hr>
+				<hr></hr>
+				<div class="transportInput" style = 'float:left;'>
+					<label class="text-left">Does it need ride ? &nbsp </label> <input
+						type="checkbox" data-toggle="toggle" data-on="Yes" data-off="No"
+						name="transportation" data-onstyle="success"
+						data-offstyle="warning" data-size="mini">
+				</div>
+				<hr></hr>
+				<hr></hr>
+				<div class="btn-group pull-right">
+
+				<button class="btn btn-success" type="submit" value="OK">Add
+					Restaurant</button>
+				<button class="btn btn-warning md-close" type="button">Close me!</button>
+</div>
+
+			</form>
 
 
-			<div class="restNameInput">
-			    <label class="pull-left">Restaurant Name: </label>
-				<input type="text"
-					class="form-control" name="inputRestName"
-					placeholder="enter restaurant name here"
-					aria-describedby="basic-addon1"
-					value="{{rest_name}}">
-			</div>
-
-
-	        <div class="weatherInput">
-	        	<label>Sensable for weather ?   </label>
-				<input type="checkbox"
-					   data-toggle="toggle"
-					   data-on="Yes" data-off="No"
-					   data-onstyle="success" data-offstyle="danger"
-					   data-size="mini">
-	        </div>
-
-			<div class="transportInput">
-				<label>araba </label>
-				<input type="checkbox"
-					   data-toggle="toggle"
-					   data-on="Yes" data-off="No"
-					   data-onstyle="success" data-offstyle="danger"
-					   data-size="mini">
-			</div>
-
-
-
-			<div class="btn-group">
-				<button class="btn btn-success">Add Restaurant</button>
-				<button class="btn btn-warning md-close">Close me!</button>
-			</div>
-</form>
+			<hr></hr>
 		</div>
 	</div>
 </div>
@@ -61,8 +67,7 @@
 					<div class="panel-body">
 						<div class="pull-right">
 							<div class="btn-group">
-								<button
-									class="btn btn-success md-trigger md-setperspective"
+								<button class="btn btn-success md-trigger md-setperspective"
 									data-modal="modal-16">Add Restaurant</button>
 								<button type="button" class="btn btn-warning">Selam</button>
 
@@ -89,12 +94,11 @@
 										</td>
 										<td>
 											<div class="pull-right action-buttons">
-												<a href="http://www.jquery2dotnet.com"><span
-													class="glyphicon glyphicon-pencil"></span></a> <a
-													href="http://www.jquery2dotnet.com" class="trash"><span
-													class="glyphicon glyphicon-trash"></span></a> <a
-													href="http://www.jquery2dotnet.com" class="flag"><span
-													class="glyphicon glyphicon-ok-sign"></span></a>
+												<a href=""><span class="glyphicon glyphicon-pencil"></span></a>
+												<a href="/restaurants/deleteRestaurant/{{obj.id}}" class="trash"><span
+													class="glyphicon glyphicon-trash"></span></a>
+												<a href=""
+													class="flag"><span class="glyphicon glyphicon-ok-sign"></span></a>
 											</div>
 
 										</td>
@@ -107,7 +111,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="content-footer"></div>
+
 			</div>
 		</section>
 
