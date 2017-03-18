@@ -9,6 +9,7 @@ import logging
 import requests
 
 def home(request):
+    flag = hava()
     return render(request, 'home/home.html')
 
 def statistics(request):
@@ -99,10 +100,18 @@ def saveGrades(request):
     
     return HttpResponseRedirect('/grading/')
         
-def hava(request):
-        r = requests.get('http://api.accuweather.com/forecasts/v1/hourly/1hour/318251?apikey=aySduxCA1u3aSnXtGUayX627JnsZuHfv')
-        deneme = r.text
-        return HttpResponse(deneme)
+def hava():
+        r = requests.get('http://api.openweathermap.org/data/2.5/weather?q=Istanbul&APPID=b9dd3952f36a165aecc5518e9e0a5117')
+        deneme = r.json()
+        tempKelvin = deneme['main']['temp']
+        tempCelcius = tempKelvin - 273,15
+        humidity = deneme['main']['humidity']
+        weatherGroup = deneme['weather'][0]['main']
+        weatherId = deneme['weather'][0]['id']
+        if (weatherId >= 900 or (weatherId >= 600 and weatherId <=699 ) or (weatherId >= 200 and weatherId <= 299 ) or ( weatherId >= 501 and weatherId <=599 ) or ( weatherId >= 312 and weatherId <= 321 ) and weatherId == 302 ):
+            return False
+        return True
+    
         
         
         
