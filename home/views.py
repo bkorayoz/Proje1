@@ -4,6 +4,7 @@ from django.template import Context, Template
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.contrib import messages
+from home.forms import UserForm
 from restaurant.models import Restaurant
 import logging
 
@@ -12,52 +13,60 @@ def home(request):
 
 def statistics(request):
      return render(request, 'home/statistics.html')
- 
+
 def grading(request):
      users = Users.objects.values()
      users_all = Users.objects.all()
      flag = True
      for u in users_all:
-         u_temp = Grade.objects.filter(user_id = u.id)   
+         u_temp = Grade.objects.filter(user_id = u.id)
          if not u_temp:
-             flag = False    
-         
+             flag = False
+
      return render(request, 'home/grading.html',Context({'IsGradingDone':flag,'period':Constants.objects.filter(name = 'period'),'Users':users}))
- 
+
 def users(request):
     try:
         users = Users.objects.values()
         return render(request, 'home/users.html',Context({'Users':users}))
     except Users.DoesNotExist:
         return render(request, 'home/users.html')
-def deleteUser(request):
-    if request.method == 'POST':
-        delete_this_id = request.POST.get('id', None)
-        Users.objects.filter(id=delete_this_id).delete()
-        return HttpResponseRedirect('/users/')
- 
+def deleteUser(request, id):
+    query = Users.objects.get(pk=id)
+    query.delete()
+    return HttpResponseRedirect('/users/')
+
 def addUser(request):
-     if request.method == 'POST':
-        enteredUserName = request.POST.get('userName', None)
-        enteredEmail = request.POST.get('userMail', None)
-        
-        try:
-            data = Users.objects.get(userName = enteredUserName)
-        except Users.DoesNotExist:
-            newUser = Users(userName = enteredUserName, userMail = enteredEmail)
-            newUser.save()
+    if request.POST:
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
             return HttpResponseRedirect('/users/')
-        
+
+    else:
+        form = RetaurantForm()
         return HttpResponseRedirect('/users/')
-     else:
-        return HttpResponseRedirect('/users/')
-    
+
+#     if request.method == 'POST':
+#        enteredUserName = request.POST.get('userName', None)
+#        enteredEmail = request.POST.get('userMail', None)
+#        try:
+#            data = Users.objects.get(userName = enteredUserName)
+#        except Users.DoesNotExist:
+#            newUser = Users(userName = enteredUserName, userMail = enteredEmail)
+#            newUser.save()
+#            return HttpResponseRedirect('/users/')
+
+#        return HttpResponseRedirect('/users/')
+#     else:
+#        return HttpResponseRedirect('/users/')
+
 def gradeIt(request):
     if request.method == 'POST':
         clickedUserId = request.POST.get('user_id')
         rests = Restaurant.objects.values()
         return render(request, 'home/gradeIt.html',Context({'user':Users.objects.get(id=clickedUserId),'Restaurant':rests}))
-    
+
 def enterPeriod(request):
     if request.method == 'POST':
         entered_period = request.POST.get('period')
@@ -67,15 +76,15 @@ def enterPeriod(request):
         else:
             newCons = Constants(name = 'period', value = entered_period)
             newCons.save()
-            
+
         return HttpResponseRedirect('/grading/')
-    
+
 def editPeriod(request):
     if  request.method == 'POST':
         Grade.objects.all().delete()
         Constants.objects.filter(name = 'period').delete()
         return HttpResponseRedirect('/grading/')
-    
+
 def saveGrades(request):
     if  request.method == 'POST':
          grades = request.POST.getlist('grade[]')
@@ -84,7 +93,7 @@ def saveGrades(request):
          userGrade =  Grade.objects.filter(user_id= uid)
          counter = len(grades)
          i=0
-         
+
          if userGrade.exists():
              while i < counter:
                  Grade.objects.select_related().filter(user_id = uid, rest_id = rids[i]).update(grade = grades[i])
@@ -94,12 +103,11 @@ def saveGrades(request):
                  newGrade = Grade(rest_id = rids[i], user_id = uid, grade = grades[i])
                  newGrade.save()
                  i = i + 1
-          
-    
+
+
     return HttpResponseRedirect('/grading/')
-        
-        
-        
-        
-        
-        
+
+
+
+
+

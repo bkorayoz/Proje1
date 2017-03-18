@@ -25,7 +25,7 @@
 
 				</div>
 				<hr></hr>
-				<div class="weatherInput" style = 'float:left;'>
+				<div class="weatherInput" style='float: left;'>
 					<label class="text-left">Sensable for weather ? &nbsp </label> <input
 						type="checkbox" data-toggle="toggle" data-on="Yes" data-off="No"
 						name="weatherSensetion" data-onstyle="success"
@@ -34,7 +34,7 @@
 				</div>
 				<hr></hr>
 				<hr></hr>
-				<div class="transportInput" style = 'float:left;'>
+				<div class="transportInput" style='float: left;'>
 					<label class="text-left">Does it need ride ? &nbsp </label> <input
 						type="checkbox" data-toggle="toggle" data-on="Yes" data-off="No"
 						name="transportation" data-onstyle="success"
@@ -44,10 +44,11 @@
 				<hr></hr>
 				<div class="btn-group pull-right">
 
-				<button class="btn btn-success" type="submit" value="OK">Add
-					Restaurant</button>
-				<button class="btn btn-warning md-close" type="button">Close me!</button>
-</div>
+					<button class="btn btn-success" type="submit" value="OK">Add
+						Restaurant</button>
+					<button class="btn btn-warning md-close" type="button">Close
+						me!</button>
+				</div>
 
 			</form>
 
@@ -81,31 +82,24 @@
 										<td>
 											<div class="media">
 												<a href="#" class="pull-left"> <img
-													src="/static/images/yemekicon.ico" class="media-photo">
+													src="/static/images/hamburger-icon.png" class="media-photo">
 												</a>
 												<div class="media-body">
 													<h4 class="title pull-left">{{obj.name}}</h4>
-
-
 												</div>
-
 											</div>
-
 										</td>
 										<td>
 											<div class="pull-right action-buttons">
 												<a href=""><span class="glyphicon glyphicon-pencil"></span></a>
-												<a href="/restaurants/deleteRestaurant/{{obj.id}}" class="trash"><span
-													class="glyphicon glyphicon-trash"></span></a>
-												<a href=""
-													class="flag"><span class="glyphicon glyphicon-ok-sign"></span></a>
+												<a href="/restaurants/deleteRestaurant/{{obj.id}}"
+													class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+												<a href="" class="flag"><span
+													class="glyphicon glyphicon-ok-sign"></span></a>
 											</div>
-
 										</td>
 									</tr>
-
 									{% endfor %}
-
 								</tbody>
 							</table>
 						</div>

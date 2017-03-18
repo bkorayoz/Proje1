@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from . import views
 
+app_name = 'home'
 
 urlpatterns = [
     url(r'^$', views.home, name='home'),
@@ -23,7 +24,7 @@ urlpatterns = [
     url(r'^grading/$', views.grading, name='grading'),
     url(r'^statistics/$', views.statistics, name='statistics'),
     url(r'^addUser/$', views.addUser, name='adduser'),
-    url(r'^deleteUser/$', views.deleteUser, name='deleteuser'),
+    url(r'^deleteUser/(?P<id>\d+)/$', views.deleteUser, name='deleteUser'),
     url(r'^gradeIt/$', views.gradeIt, name='gradeIt'),
     url(r'^saveGrades/$', views.saveGrades, name='saveGrades'),
     url(r'^enterPeriod/$', views.enterPeriod, name='enterPeriod'),
