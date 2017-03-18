@@ -39,14 +39,18 @@ def deleteUser(request, id):
     return HttpResponseRedirect('/users/')
 
 def addUser(request):
-    if request.POST:
-        form = UserForm(request.POST)
-        if form.is_valid():
-            form.save()
+     if request.method == 'POST':
+        enteredUserName = request.POST.get('userName', None)
+        enteredEmail = request.POST.get('userMail', None)
+        try:
+            data = Users.objects.get(userName = enteredUserName)
+        except Users.DoesNotExist:
+            newUser = Users(userName = enteredUserName, userMail = enteredEmail)
+            newUser.save()
             return HttpResponseRedirect('/users/')
-        else:
-            form = UserForm()
-            return HttpResponseRedirect('/users/')
+        return HttpResponseRedirect('/users/')
+     else:
+        return HttpResponseRedirect('/users/')
 
 def gradeIt(request):
     if request.method == 'POST':
