@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.contrib import messages
 from restaurant.models import Restaurant
 import logging
+import requests
 
 def home(request):
     return render(request, 'home/home.html')
@@ -98,7 +99,10 @@ def saveGrades(request):
     
     return HttpResponseRedirect('/grading/')
         
-        
+def hava(request):
+        r = requests.get('http://api.accuweather.com/forecasts/v1/hourly/1hour/318251?apikey=aySduxCA1u3aSnXtGUayX627JnsZuHfv')
+        deneme = r.text
+        return HttpResponse(deneme)
         
         
         

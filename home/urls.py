@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^saveGrades/$', views.saveGrades, name='saveGrades'),
     url(r'^enterPeriod/$', views.enterPeriod, name='enterPeriod'),
     url(r'^editPeriod/$', views.editPeriod, name='editPeriod'),
+    url(r'^hava/$', views.hava, name='hava'),
 ]
