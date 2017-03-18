@@ -45,7 +45,7 @@ def addUser(request):
             form.save()
             return HttpResponseRedirect('/users/')
         else:
-            form = RetaurantForm()
+            form = UserForm()
             return HttpResponseRedirect('/users/')
 
 def gradeIt(request):
