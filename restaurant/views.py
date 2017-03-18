@@ -28,7 +28,6 @@ def addRestaurant(request):
         return HttpResponseRedirect('/restaurants/')
 
 def deleteRestaurant(request, id):
-
     query = Restaurant.objects.get(pk= id)
     query.delete()
     return HttpResponseRedirect('/restaurants/')
