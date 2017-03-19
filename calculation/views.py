@@ -7,8 +7,9 @@ from django.contrib import messages
 from restaurant.models import Restaurant
 from home.forms import UserForm
 from calculation.models import Result
-import math
+import math,random,datetime
 from django.db.models import F
+
 def hava():
         r = requests.get('http://api.openweathermap.org/data/2.5/weather?q=Istanbul&APPID=b9dd3952f36a165aecc5518e9e0a5117')
         deneme = r.json()
@@ -85,6 +86,7 @@ def standard(request):
     return render(request, 'calculation/standard.html',Context({'grades': users_value,'rest': rest_value, 'floor': floorgrade,'decimal': decimalgrade}))
 
 def pickRest():
+    
     currentDay = Constants.objects.get(name = 'currentday')
     cDay = currentDay.value
     
@@ -95,20 +97,53 @@ def pickRest():
         restId = formerRest.rest_id
         musaitRests = musaitRests.exclude(id = restId)
         
-    
     if not hava():
         musaitRests = musaitRests.exclude(weatherSensation = True)
+         
+    if cDay == 2:
+        formerRest = Result.objects.get(day = (cDay-1))
+        rest = Restaurant.objects.get(id = formerRest)
         
+        if rest.transportation:
+            musaitRests = musaitRests.exclude(transportation = True)
+     
+    elif cDay > 2:
+        formerRest1 = Result.objects.get(day = (cDay-1))
+        rest1 = Restaurant.objects.get(id = formerRest1)
+        
+        formerRest2 = Result.objects.get(day = (cDay-2))
+        rest2 = Restaurant.objects.get(id = formerRest2)
+        
+        if rest1.transportation or rest2.transportation:
+            musaitRests = musaitRests.exclude(transportation = True)
+
     
+    if musaitRests.count() == 0:
+        musaitRests = Restaurant.objects.filter(counter__gt = 0)
+         
+    period = Constants.objects.get(name = 'period')
+    pv = period.value
+    
+    rlist = [None] * (pv - cDay + 1)
+    i = 0
+    for m in musaitRests:
+       tempi = i
+       for count  in range(tempi,m.counter):
+           rlist[count] = m.id
+           i += 1
      
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
+    index = random.choice(rlist)
+    
+    cr = Restaurant.objects.get(id = index)
+    cr.counter -= 1
+    cr.save()
+    
+    newResult = Result(rest_id = index, day = cDay, date = datetime.datetime.now())
+    newResult.save()
+    
+    currentDay = Constants.objects.get(name = 'currentday')
+    currentDay.value += 1
+    currentDay.save()
+    
+    return index
      
