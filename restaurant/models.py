@@ -6,6 +6,7 @@ class Restaurant(models.Model):
     transportation = models.BooleanField(default=False)
     weatherSensetion = models.BooleanField(default=False)
     status = models.BooleanField(default=True)
+    totalDay = models.IntegerField(default=0)
     counter = models.IntegerField(default=0)
 
     def __str__(self):

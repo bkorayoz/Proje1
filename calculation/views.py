@@ -66,7 +66,7 @@ def standard(request):
         restidgrade[i] = r.id
         floorgrade[i] = math.floor(newCounterValue)
         decimalgrade[i] = newCounterValue - floorgrade[i]
-        Restaurant.objects.filter(id = r.id).update(counter = floorgrade[i])
+        Restaurant.objects.filter(id = r.id).update(counter = floorgrade[i], totalDay = floorgrade[i])
         i = i+1
         
     overDay = pv - sum(floorgrade)
@@ -74,11 +74,41 @@ def standard(request):
     while overDay > 0:
         index = decimalgrade.index(max(decimalgrade))
         floorgrade[index] = floorgrade[index] + 1
-        Restaurant.objects.filter(id = restidgrade[index]).update(counter = floorgrade[index])
+        Restaurant.objects.filter(id = restidgrade[index]).update(counter = floorgrade[index], totalDay = floorgrade[index])
         overDay = overDay - 1
         decimalgrade[index] = 0
     
     
     users_value = Grade.objects.values()
     rest_value = Restaurant.objects.values()
+    #counter valuelar ayarlandi 
     return render(request, 'calculation/standard.html',Context({'grades': users_value,'rest': rest_value, 'floor': floorgrade,'decimal': decimalgrade}))
+
+def pickRest():
+    currentDay = Constants.objects.get(name = 'currentday')
+    cDay = currentDay.value
+    
+    musaitRests = Restaurant.objects.filter(counter__gt = 0)
+    
+    if cDay > 1:
+        formerRest = Result.objects.get(day = (cDay-1))
+        restId = formerRest.rest_id
+        musaitRests = musaitRests.exclude(id = restId)
+        
+    
+    if not hava():
+        musaitRests = musaitRests.exclude(weatherSensation = True)
+        
+    
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
