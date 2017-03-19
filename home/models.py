@@ -6,14 +6,15 @@ from django.template.defaultfilters import default
 class Users(models.Model):
     userName = models.CharField(max_length =30)
     userMail = models.EmailField(default = 'email@email.com')
-
+    flag = models.BooleanField(default = False)
+    
     def __str__(self):
         return self.userName
 
 class Grade(models.Model):
     user = models.ForeignKey('Users', on_delete=models.CASCADE)
     rest = models.ForeignKey('restaurant.Restaurant', on_delete=models.CASCADE)
-    grade = models.IntegerField(default = '0')
+    grade = models.FloatField(default = '0')
 
 class Constants(models.Model):
     name = models.CharField(max_length = 30)

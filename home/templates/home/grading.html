@@ -7,7 +7,7 @@
     {% csrf_token %}
 {% if not period %}
      <h3> Please enter the period before start grading:</h3>
-     <input type="number" name="period" min="30" max="200">
+     <input type="number" name="period" min="30" max="999">
 <button type="submit" formaction="/enterPeriod/"   class="btn btn-yesil btn-lg"> Submit</button>
 
 {% elif Users %}
@@ -18,13 +18,27 @@
 {% for user in Users %}
      <tbody>  <tr> <td>{{ user.userName }}</td> <td> <button type="submit" formaction="/gradeIt/" name="user_id" value= "{{user.id}}" class="btn btn-yesil btn-xs">
   Grade them!
-</button> </td> </tr>
+</button> </td>
+
+<td> {% if user.flag %}
+<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+
+{% else %}
+<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+
+{% endif %}
+
+</td> </tr>
 {% endfor %}
 </tbody>
 </table>
+
+
+{% if not IsGradingDone %}
+<p class="bg-danger">Grading is not finished yet! Keep grading! </p>
+{% else %}
+<button type="submit" formaction="/calculation/"  class="btn btn-danger btn-lg">Let the calculation begin!</button>
 {% endif %}
-{% if IsGradingDone %}
-<p class="bg-danger">Grading Done!! </p>
 {% endif %}
 </form>
 {% endblock %}

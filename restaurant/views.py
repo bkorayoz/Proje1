@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.template import Context, Template
 from django.http import HttpResponseRedirect
 from restaurant.models import Restaurant
+from home.models import Grade,Users
 from django.template.context_processors import request
 from restaurant.forms import RestaurantForm
 
@@ -21,14 +22,18 @@ def addRestaurant(request):
         form = RestaurantForm(request.POST)
         if form.is_valid():
             form.save()
+            Grade.objects.all().delete()
+            Users.objects.all().update(flag = False)
             return HttpResponseRedirect('/restaurants/')
 
     else:
-        form = RetaurantForm()
+        form = RestaurantForm()
         return HttpResponseRedirect('/restaurants/')
 
 def deleteRestaurant(request, id):
     query = Restaurant.objects.get(pk= id)
     query.delete()
+    Grade.objects.all().delete()
+    Users.objects.all().update(flag = False)
     return HttpResponseRedirect('/restaurants/')
 #

@@ -14,19 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
+from django.views.generic import ListView, DetailView
 from . import views
 
-app_name = 'home'
+app_name = 'calculation'
 
 urlpatterns = [
-    url(r'^$', views.home, name='home'),
-    url(r'^users/$', views.users, name='users'),
-    url(r'^grading/$', views.grading, name='grading'),
-    url(r'^statistics/$', views.statistics, name='statistics'),
-    url(r'^addUser/$', views.addUser, name='adduser'),
-    url(r'^deleteUser/(?P<id>\d+)/$', views.deleteUser, name='deleteUser'),
-    url(r'^gradeIt/$', views.gradeIt, name='gradeIt'),
-    url(r'^saveGrades/$', views.saveGrades, name='saveGrades'),
-    url(r'^enterPeriod/$', views.enterPeriod, name='enterPeriod'),
-    url(r'^editPeriod/$', views.editPeriod, name='editPeriod'),
+    url(r'^$', views.standard, name='standard'),
+
 ]

@@ -10,7 +10,6 @@ import logging
 import requests
 
 def home(request):
-    flag = hava()
     return render(request, 'home/home.html')
 
 def statistics(request):
@@ -45,7 +44,7 @@ def addUser(request):
         try:
             data = Users.objects.get(userName = enteredUserName)
         except Users.DoesNotExist:
-            newUser = Users(userName = enteredUserName, userMail = enteredEmail)
+            newUser = Users(userName = enteredUserName, userMail = enteredEmail, flag = False)
             newUser.save()
             return HttpResponseRedirect('/users/')
         return HttpResponseRedirect('/users/')
@@ -56,7 +55,8 @@ def gradeIt(request):
     if request.method == 'POST':
         clickedUserId = request.POST.get('user_id')
         rests = Restaurant.objects.values()
-        return render(request, 'home/gradeIt.html',Context({'user':Users.objects.get(id=clickedUserId),'Restaurant':rests}))
+        period = Constants.objects.get(name = 'period')
+        return render(request, 'home/gradeIt.html',Context({'pvaluehalf': period.value/2,'pvalue': period.value,'user':Users.objects.get(id=clickedUserId),'Restaurant':rests}))
 
 def enterPeriod(request):
     if request.method == 'POST':
@@ -74,6 +74,7 @@ def editPeriod(request):
     if  request.method == 'POST':
         Grade.objects.all().delete()
         Constants.objects.filter(name = 'period').delete()
+        Users.objects.all().update(flag = False)
         return HttpResponseRedirect('/grading/')
 
 def saveGrades(request):
@@ -82,33 +83,37 @@ def saveGrades(request):
          rids = request.POST.getlist('rid[]')
          uid = request.POST.get('uid')
          userGrade =  Grade.objects.filter(user_id= uid)
+         period = Constants.objects.get(name = 'period')
+         pv = period.value
          counter = len(grades)
-         i=0
-
-         if userGrade.exists():
-             while i < counter:
-                 Grade.objects.select_related().filter(user_id = uid, rest_id = rids[i]).update(grade = grades[i])
-                 i = i + 1
-         else:
-             while i < counter:
-                 newGrade = Grade(rest_id = rids[i], user_id = uid, grade = grades[i])
-                 newGrade.save()
-                 i = i + 1
-
-
+         controlFlag = True
+         count = 0
+         i = 0
+         for g in grades:
+              count = count +int(g)
+         if count > pv:
+            controlFlag = False
+            
+         for g in grades:
+            if int(g) > count/2:
+                controlFlag = False
+            
+         if controlFlag:
+             Users.objects.filter(id = uid).update(flag = True)
+             
+             if userGrade.exists():
+                 while i < counter:
+                     Grade.objects.select_related().filter(user_id = uid, rest_id = rids[i]).update(grade = grades[i])
+                     i = i + 1
+             else:
+                 while i < counter:
+                     newGrade = Grade(rest_id = rids[i], user_id = uid, grade = grades[i])
+                     newGrade.save()
+                     i = i + 1
+         #else:
+            # HATALI GIRIS
+                        
     return HttpResponseRedirect('/grading/')
-
-def hava():
-        r = requests.get('http://api.openweathermap.org/data/2.5/weather?q=Istanbul&APPID=b9dd3952f36a165aecc5518e9e0a5117')
-        deneme = r.json()
-        tempKelvin = deneme['main']['temp']
-        tempCelcius = tempKelvin - 273,15
-        humidity = deneme['main']['humidity']
-        weatherGroup = deneme['weather'][0]['main']
-        weatherId = deneme['weather'][0]['id']
-        if (weatherId >= 900 or (weatherId >= 600 and weatherId <=699 ) or (weatherId >= 200 and weatherId <= 299 ) or ( weatherId >= 501 and weatherId <=599 ) or ( weatherId >= 312 and weatherId <= 321 ) and weatherId == 302 ):
-            return False
-        return True
 
 
 
