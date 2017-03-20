@@ -21,5 +21,6 @@ app_name = 'calculation'
 
 urlpatterns = [
     url(r'^$', views.standard, name='standard'),
+    url(r'^gundegis/$', views.gundegis, name='gundegis'),
 
 ]

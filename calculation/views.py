@@ -9,6 +9,7 @@ from home.forms import UserForm
 from calculation.models import Result
 import math,random,datetime
 from django.db.models import F
+import requests
 
 def hava():
         r = requests.get('http://api.openweathermap.org/data/2.5/weather?q=Istanbul&APPID=b9dd3952f36a165aecc5518e9e0a5117')
@@ -24,13 +25,16 @@ def hava():
 
 
 def standard(request):
+    Result.objects.all().delete()
     users = Users.objects.all();
     period = Constants.objects.get(name = 'period')
     rcount = Restaurant.objects.all().count()
     pv = period.value
-    
-    newConstant = Constants(name='currentday', value = 1)
-    newConstant.save()
+    if Constants.objects.filter(name = 'currentday').count() > 0:
+        Constants.objects.filter(name='currentday').update(value = 1)
+    else:
+        newConstant = Constants(name='currentday', value = 1)
+        newConstant.save()
     
     for u in users:
         grades = Grade.objects.filter(user_id = u.id)
@@ -98,21 +102,21 @@ def pickRest():
         musaitRests = musaitRests.exclude(id = restId)
         
     if not hava():
-        musaitRests = musaitRests.exclude(weatherSensation = True)
+        musaitRests = musaitRests.exclude(weatherSensetion = True)
          
     if cDay == 2:
         formerRest = Result.objects.get(day = (cDay-1))
-        rest = Restaurant.objects.get(id = formerRest)
+        rest = Restaurant.objects.get(id = formerRest.rest_id)
         
         if rest.transportation:
             musaitRests = musaitRests.exclude(transportation = True)
      
     elif cDay > 2:
         formerRest1 = Result.objects.get(day = (cDay-1))
-        rest1 = Restaurant.objects.get(id = formerRest1)
+        rest1 = Restaurant.objects.get(id = formerRest1.rest_id)
         
         formerRest2 = Result.objects.get(day = (cDay-2))
-        rest2 = Restaurant.objects.get(id = formerRest2)
+        rest2 = Restaurant.objects.get(id = formerRest2.rest_id)
         
         if rest1.transportation or rest2.transportation:
             musaitRests = musaitRests.exclude(transportation = True)
@@ -124,7 +128,7 @@ def pickRest():
     period = Constants.objects.get(name = 'period')
     pv = period.value
     
-    rlist = [None] * (pv - cDay + 1)
+    rlist = [0] * (pv - cDay + 1)
     i = 0
     for m in musaitRests:
        tempi = i
@@ -133,6 +137,8 @@ def pickRest():
            i += 1
      
     index = random.choice(rlist)
+    while index == 0:
+        index = random.choice(rlist)
     
     cr = Restaurant.objects.get(id = index)
     cr.counter -= 1
@@ -144,6 +150,8 @@ def pickRest():
     currentDay = Constants.objects.get(name = 'currentday')
     currentDay.value += 1
     currentDay.save()
-    
-    return index
+
+def gundegis(request):
+    pickRest()
+    return HttpResponseRedirect('/statistics/')
      

@@ -12,9 +12,9 @@
 
 {% elif Users %}
 {% for p in period %} 
- <p class="bg-danger"><b>Current period:</b> {{ p.value }} <br> <i> You can change the period this will led to lose all your grade data </i> <br> <button type="submit" formaction="/editPeriod/" name="user_id" value= "{{user.id}}" class="btn btn-danger btn">Change it!</button></p>
+ <p class="bg-danger"><b>Current period:</b> {{ p.value }} <br> <i> You can change the period this will led to lose all your grade data </i> <br> <button type="submit" formaction="/editPeriod/" name="user_id" value= "{{user.id}}" class="btn btn-danger btn-sm">Change it!</button></p>
  {% endfor %}
-<table class="table table-bordered">
+<table class="table table-responsive table-inverse table-bordered">
 {% for user in Users %}
      <tbody>  <tr> <td>{{ user.userName }}</td> <td> <button type="submit" formaction="/gradeIt/" name="user_id" value= "{{user.id}}" class="btn btn-yesil btn-xs">
   Grade them!
