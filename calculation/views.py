@@ -9,6 +9,7 @@ from home.forms import UserForm
 from calculation.models import Result
 import math,random,datetime
 from django.db.models import F
+import requests
 
 def hava():
         r = requests.get('http://api.openweathermap.org/data/2.5/weather?q=Istanbul&APPID=b9dd3952f36a165aecc5518e9e0a5117')
@@ -24,40 +25,43 @@ def hava():
 
 
 def standard(request):
+    Result.objects.all().delete()
     users = Users.objects.all();
     period = Constants.objects.get(name = 'period')
     rcount = Restaurant.objects.all().count()
     pv = period.value
-
-    newConstant = Constants(name='currentday', value = 1)
-    newConstant.save()
-
+    if Constants.objects.filter(name = 'currentday').count() > 0:
+        Constants.objects.filter(name='currentday').update(value = 1)
+    else:
+        newConstant = Constants(name='currentday', value = 1)
+        newConstant.save()
+    
     for u in users:
         grades = Grade.objects.filter(user_id = u.id)
-
+        
         sumgrades =0
         for g in grades:
             sumgrades = sumgrades + g.grade
-
+            
         if sumgrades ==0:
             temp = pv / rcount
             Grade.objects.filter(user_id= u.id).update(grade = temp)
-
+            
         else:
             oran = float(pv) / float(sumgrades)
             for g in grades:
                 newgrade = oran * g.grade
                 Grade.objects.filter(user_id = u.id, rest_id = g.rest_id).update(grade = newgrade)
-
-
+                
+                
     rests = Restaurant.objects.all()
     ucount = Users.objects.all().count()
-
+    
     floorgrade = [None]* rcount
     decimalgrade = [None] * rcount
     restidgrade = [None] *rcount
     i=0
-
+    
     for r in rests:
         gradesr = Grade.objects.filter(rest_id = r.id)
         sumgrades =0
@@ -69,81 +73,85 @@ def standard(request):
         decimalgrade[i] = newCounterValue - floorgrade[i]
         Restaurant.objects.filter(id = r.id).update(counter = floorgrade[i], totalDay = floorgrade[i])
         i = i+1
-
+        
     overDay = pv - sum(floorgrade)
-
+    
     while overDay > 0:
         index = decimalgrade.index(max(decimalgrade))
         floorgrade[index] = floorgrade[index] + 1
         Restaurant.objects.filter(id = restidgrade[index]).update(counter = floorgrade[index], totalDay = floorgrade[index])
         overDay = overDay - 1
         decimalgrade[index] = 0
-
-
+    
+    
     users_value = Grade.objects.values()
     rest_value = Restaurant.objects.values()
-    #counter valuelar ayarlandi
+    #counter valuelar ayarlandi 
     return render(request, 'calculation/standard.html',Context({'grades': users_value,'rest': rest_value, 'floor': floorgrade,'decimal': decimalgrade}))
 
 def pickRest():
-
+    
     currentDay = Constants.objects.get(name = 'currentday')
     cDay = currentDay.value
-
+    
     musaitRests = Restaurant.objects.filter(counter__gt = 0)
-
+    
     if cDay > 1:
         formerRest = Result.objects.get(day = (cDay-1))
         restId = formerRest.rest_id
         musaitRests = musaitRests.exclude(id = restId)
-
+        
     if not hava():
-        musaitRests = musaitRests.exclude(weatherSensation = True)
-
+        musaitRests = musaitRests.exclude(weatherSensetion = True)
+         
     if cDay == 2:
         formerRest = Result.objects.get(day = (cDay-1))
-        rest = Restaurant.objects.get(id = formerRest)
-
+        rest = Restaurant.objects.get(id = formerRest.rest_id)
+        
         if rest.transportation:
             musaitRests = musaitRests.exclude(transportation = True)
-
+     
     elif cDay > 2:
         formerRest1 = Result.objects.get(day = (cDay-1))
-        rest1 = Restaurant.objects.get(id = formerRest1)
-
+        rest1 = Restaurant.objects.get(id = formerRest1.rest_id)
+        
         formerRest2 = Result.objects.get(day = (cDay-2))
-        rest2 = Restaurant.objects.get(id = formerRest2)
-
+        rest2 = Restaurant.objects.get(id = formerRest2.rest_id)
+        
         if rest1.transportation or rest2.transportation:
             musaitRests = musaitRests.exclude(transportation = True)
 
-
+    
     if musaitRests.count() == 0:
         musaitRests = Restaurant.objects.filter(counter__gt = 0)
-
+         
     period = Constants.objects.get(name = 'period')
     pv = period.value
-
-    rlist = [None] * (pv - cDay + 1)
+    
+    rlist = [0] * (pv - cDay + 1)
     i = 0
     for m in musaitRests:
        tempi = i
        for count  in range(tempi,m.counter):
            rlist[count] = m.id
            i += 1
-
+     
     index = random.choice(rlist)
-
+    while index == 0:
+        index = random.choice(rlist)
+    
     cr = Restaurant.objects.get(id = index)
     cr.counter -= 1
     cr.save()
-
+    
     newResult = Result(rest_id = index, day = cDay, date = datetime.datetime.now())
     newResult.save()
-
+    
     currentDay = Constants.objects.get(name = 'currentday')
     currentDay.value += 1
     currentDay.save()
 
-    return index
-
+def gundegis(request):
+    pickRest()
+    return HttpResponseRedirect('/statistics/')
+     

@@ -10,7 +10,7 @@
 <input type="hidden" name="uid" value="{{user.id}}">
 
 
-<table class="table table-bordered">
+<table class="table table-bordered table-responsive">
 {% for r in Restaurant %}
 <tr><td>{{r.name}}</td>
 <td> <input type="number" name="grade[]" min="0" max="{{pvaluehalf}}" value="0"> </td>

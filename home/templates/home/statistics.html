@@ -2,4 +2,40 @@
 
 {% block title %}Statistics{% endblock %}
 
-{% block content %}Selam tatlim(Statistics) :*{% endblock %}
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+<button type="submit" formaction="/gundegis/"   class="btn btn-yesil btn-lg"> gun degis</button>
+
+{% for c in cday %} 
+ <p class="bg-info"><b>Current Day:</b> {{ c.value }}</p>
+ {% endfor %}
+ 
+ {% for p in period %} 
+ <p class="bg-danger"><b>Total Day:</b> {{ p.value }}</p>
+ {% endfor %}
+<table class="table table-responsive table-inverse table-bordered">
+<thead>
+<tr><td><b> Restaurant Name</b> </td><td><b> Total Day</b> </td><td><b> Remaining Day</b> </td> </tr>
+ </thead>
+{% for r in rests %}
+
+<tr><td> {{r.name}} </td><td> {{r.totalDay}} </td><td> {{r.counter}} </td></tr>
+{% endfor %}
+
+</table>
+<br>
+<br>
+{% if results %}
+<table class="table table-responsive table-inverse table-bordered">
+<thead>
+<tr><td><b> Day</b> </td><td><b> Date</b> </td><td><b> Restaurant Name</b> </td> </tr>
+ </thead>
+{% for r in results %}
+
+<tr><td> {{r.day}} </td><td> {{r.date}} </td><td> {{r.rest.name}} </td></tr>
+{% endfor %}
+{% endif %}
+</table>
+</form>
+{% endblock %}

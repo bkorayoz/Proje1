@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.contrib import messages
 from restaurant.models import Restaurant
+from calculation.models import Result
 from home.forms import UserForm
 import logging
 import requests
@@ -13,7 +14,11 @@ def home(request):
     return render(request, 'home/home.html')
 
 def statistics(request):
-     return render(request, 'home/statistics.html')
+     rests = Restaurant.objects.values()
+     results = Result.objects.all()
+     cday = Constants.objects.filter(name = 'currentday').values()
+     period = Constants.objects.filter(name = 'period').values()
+     return render(request, 'home/statistics.html', Context({'period':period,'cday': cday,'rests': rests,'results': results}))
 
 def grading(request):
      users = Users.objects.values()
