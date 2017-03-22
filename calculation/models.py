@@ -7,3 +7,4 @@ class Result(models.Model):
     rest = models.ForeignKey('restaurant.Restaurant',on_delete=models.CASCADE)
     day = models.IntegerField()
     date = models.DateField()
+    weather = models.BooleanField(default = True)

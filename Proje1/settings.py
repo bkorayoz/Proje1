@@ -25,7 +25,10 @@ SECRET_KEY = '(__dg4gmt7m)4mhdl5ua_fb#=wwofqu-^6an!fwbmju04or^5='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    'neredeyiyek.azurewebsites.net',
+    ]
 
 
 # Application definition
