@@ -5,8 +5,7 @@
 {% block content %}
 <form method="POST">
     {% csrf_token %}
-<button type="submit" formaction="/gundegis/"   class="btn btn-yesil btn-lg"> gun degis</button>
-
+ {% if algo %}
 {% for c in cday %} 
  <p class="bg-info"><b>Current Day:</b> {{ c.value }}</p>
  {% endfor %}
@@ -29,13 +28,43 @@
 {% if results %}
 <table class="table table-responsive table-inverse table-bordered">
 <thead>
-<tr><td><b> Day</b> </td><td><b> Date</b> </td><td><b> Restaurant Name</b> </td> </tr>
+<tr><td><b> Day</b> </td><td><b> Date</b> </td> <td><b> Weather </b> </td><td><b> Restaurant Name</b> </td><td><b> Does it need ride?</b> </td> ><td><b> Weather Sensation</b> </td> </tr>
  </thead>
 {% for r in results %}
 
-<tr><td> {{r.day}} </td><td> {{r.date}} </td><td> {{r.rest.name}} </td></tr>
+<tr><td> {{r.day}} </td><td> {{r.date}} </td>
+<td> {% if r.weather %}
+Nice
+
+{% else %}
+Bad
+{% endif %}
+
+</td> <td> {{r.rest.name}} </td>
+<td> {% if r.rest.transportation %}
+<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+
+{% else %}
+<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+
+{% endif %}
+
+</td><td> {% if r.rest.weatherSensetion %}
+<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+
+{% else %}
+<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+
+{% endif %}
+
+</td>
+</tr>
 {% endfor %}
 {% endif %}
 </table>
 </form>
+{% else %}
+algorithm off// no statistic to show
+{% endif %}
+
 {% endblock %}

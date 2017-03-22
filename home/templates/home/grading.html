@@ -5,6 +5,10 @@
 {% block content %}
 <form method="POST">
     {% csrf_token %}
+ {% if algo %}
+ algorithm on...
+ <button type="submit" formaction="/resetAlgo/"   class="btn btn-yesil btn-lg"> Reset</button>
+ {% else %}   
 {% if not period %}
      <h3> Please enter the period before start grading:</h3>
      <input type="number" name="period" min="30" max="999">
@@ -40,5 +44,7 @@
 <button type="submit" formaction="/calculation/"  class="btn btn-danger btn-lg">Let the calculation begin!</button>
 {% endif %}
 {% endif %}
+{% endif %}
 </form>
+
 {% endblock %}

@@ -12,29 +12,50 @@ import logging
 import requests
 
 def home(request):
-    if request.method == 'POST':
-        backGroundThread = backThread("Calculation")
-        backGroundThread.start()
-        return HttpResponseRedirect('/statistics')
+    if Constants.objects.filter(name = 'isAlgorithmOn').count() == 0:
+         newConstant = Constants(name='isAlgorithmOn', value = 0)
+         newConstant.save()
     return render(request, 'home/home.html')
+
+def resetAlgo(request):
+    if request.method == 'POST':
+        Grade.objects.all().delete()
+        Result.objects.all().delete()
+        Constants.objects.filter(name = 'period').delete()
+        Constants.objects.filter(name = 'currentday').delete()
+        Constants.objects.filter(name = 'isAlgorithmOn').update(value = 0)
+        Users.objects.all().update(flag = False)
+        return HttpResponseRedirect('/grading/')
 
 def statistics(request):
      rests = Restaurant.objects.values()
      results = Result.objects.all()
      cday = Constants.objects.filter(name = 'currentday').values()
      period = Constants.objects.filter(name = 'period').values()
-     return render(request, 'home/statistics.html', Context({'period':period,'cday': cday,'rests': rests,'results': results}))
+     temp = Constants.objects.get(name = 'isAlgorithmOn')
+     if temp.value == 0:
+         algo = False
+     else:
+         algo = True
+     
+     return render(request, 'home/statistics.html', Context({'algo':algo,'period':period,'cday': cday,'rests': rests,'results': results}))
 
 def grading(request):
      users = Users.objects.values()
      users_all = Users.objects.all()
+
      flag = True
      for u in users_all:
          u_temp = Grade.objects.filter(user_id = u.id)
          if not u_temp:
              flag = False
 
-     return render(request, 'home/grading.html',Context({'IsGradingDone':flag,'period':Constants.objects.filter(name = 'period'),'Users':users}))
+     temp = Constants.objects.get(name = 'isAlgorithmOn')
+     if temp.value == 0:
+         algo = False
+     else:
+         algo = True
+     return render(request, 'home/grading.html',Context({'IsGradingDone':flag,'period':Constants.objects.filter(name = 'period'),'algo': algo,'Users':users}))
 
 def users(request):
     try:
@@ -70,6 +91,13 @@ def gradeIt(request):
 
 def enterPeriod(request):
     if request.method == 'POST':
+        
+        if Constants.objects.filter(name = 'isAlgorithmOn').count() > 0:
+            Constants.objects.filter(name='isAlgorithmOn').update(value = 0)
+        else:
+            newConstant = Constants(name='isAlgorithmOn', value = 0)
+            newConstant.save()
+            
         entered_period = request.POST.get('period')
         checkperiod = Constants.objects.filter(name = 'period')
         if checkperiod.exists():

@@ -13,6 +13,13 @@ import math,random,datetime
 from django.db.models import F
 import requests
 import time
+from random import randint
+
+def start(request):
+    if request.method == 'POST':
+        backGroundThread = backThread("Calculation")
+        backGroundThread.start()
+        return HttpResponseRedirect('/statistics')
 
 class backThread(Thread):
     def __init__(self, name):
@@ -25,18 +32,13 @@ class backThread(Thread):
         period = Constants.objects.get(name = 'period').value
         counter = period
         while counter > 0 :
-            havakosulu = hava()
             pickRest()
             counter = counter - 1
             time.sleep(2)
 
 
 def app(request):
-
     return render(request,'header.html')
-
-
-
 
 def hava():
         r = requests.get('http://api.openweathermap.org/data/2.5/weather?q=Istanbul&APPID=b9dd3952f36a165aecc5518e9e0a5117')
@@ -61,6 +63,12 @@ def standard():
         Constants.objects.filter(name='currentday').update(value = 1)
     else:
         newConstant = Constants(name='currentday', value = 1)
+        newConstant.save()
+        
+    if Constants.objects.filter(name = 'isAlgorithmOn').count() > 0:
+        Constants.objects.filter(name='isAlgorithmOn').update(value = 1)
+    else:
+        newConstant = Constants(name='isAlgorithmOn', value = 1)
         newConstant.save()
 
     for u in users:
@@ -116,51 +124,83 @@ def standard():
     #counter valuelar ayarlandi
 
 def pickRest():
-
     currentDay = Constants.objects.get(name = 'currentday')
     cDay = currentDay.value
+    #w_c = hava()
+    tempi = randint(0,10)
+    if tempi > 7:
+        w_c = False
+    else:
+        w_c = True
 
-    musaitRests = Restaurant.objects.filter(counter__gt = 0)
-
-    if cDay > 1:
+    musaitRests = Restaurant.objects.filter(counter__gt = 0).order_by('-counter')
+    
+    if cDay > 1 and musaitRests.count() != 1 : # onceki gun ile ayni olmasin
         formerRest = Result.objects.last()
         restId = formerRest.rest_id
         musaitRests = musaitRests.exclude(id = restId)
 
-    if not hava():
+    if w_c == False and musaitRests.count() != 1: # hava guzel olsun
         musaitRests = musaitRests.exclude(weatherSensetion = True)
 
-    if cDay == 2:
+    if cDay == 2 and musaitRests.count() != 1 : #transportation control
         formerRest = Result.objects.get(day = (cDay-1))
         rest = Restaurant.objects.get(id = formerRest.rest_id)
 
         if rest.transportation:
             musaitRests = musaitRests.exclude(transportation = True)
 
-    elif cDay > 2:
+    elif cDay > 2: # transportation control
         formerRest1 = Result.objects.get(day = (cDay-1))
         rest1 = Restaurant.objects.get(id = formerRest1.rest_id)
 
         formerRest2 = Result.objects.get(day = (cDay-2))
         rest2 = Restaurant.objects.get(id = formerRest2.rest_id)
 
-        if rest1.transportation or rest2.transportation:
+        if (rest1.transportation or rest2.transportation) and musaitRests.count() != 1 :
             musaitRests = musaitRests.exclude(transportation = True)
-
-
-    if musaitRests.count() == 0:
-        musaitRests = Restaurant.objects.filter(counter__gt = 0)
-
+    
     period = Constants.objects.get(name = 'period')
     pv = period.value
-
-    rlist = [0] * (pv - cDay + 1)
-    i = 0
+    
+    remainingDay = pv - cDay
+    remainingBadWDay = 0
+    rests = Restaurant.objects.filter(weatherSensetion = True)
+    for r in rests:
+        remainingBadWDay = remainingBadWDay + r.counter
+    
+    remainingCarDay = 0
+    rests = Restaurant.objects.filter(transportation = True)
+    for r in rests:
+        remainingCarDay = remainingCarDay + r.counter
+        
+    if remainingBadWDay * 2 > remainingDay:
+        restcount = musaitRests.filter(weatherSensetion = True).count()
+        if restcount > 0 :
+            musaitRests = musaitRests.exclude(weatherSensetion = False)
+        
+    if remainingCarDay * 3 > remainingDay:
+         restcount = musaitRests.filter(transportation = True).count()
+         if restcount > 0 :
+            musaitRests = musaitRests.exclude(transportation = False)
+        
+        
+    if musaitRests.count() == 0: # elemeler sonunda sonuc bulamadiysak kalanlarin hepsini getir
+        musaitRests = Restaurant.objects.filter(counter__gt = 0)
+        
+        
+    min = musaitRests.last()
+    perfectRate = min.totalDay / pv
+    if cDay < pv:
+        for rests in musaitRests:
+            rate = rests.counter/(pv - cDay)
+            if musaitRests.count() > 1 and rate< perfectRate:
+                musaitRests = musaitRests.exclude(id = rests.id)
+    
+    rlist = []
     for m in musaitRests:
-       tempi = i
-       for count  in range(tempi,m.counter):
-           rlist[count] = m.id
-           i += 1
+       for count  in range(0,m.counter):
+          rlist.append(m.id)
 
     index = random.choice(rlist)
     while index == 0:
@@ -170,14 +210,11 @@ def pickRest():
     cr.counter -= 1
     cr.save()
 
-    newResult = Result(rest_id = index, day = cDay, date = datetime.datetime.now())
+    newResult = Result(rest_id = cr.id, day = cDay, date = datetime.datetime.now(), weather = w_c)
     newResult.save()
 
     currentDay = Constants.objects.get(name = 'currentday')
     currentDay.value += 1
     currentDay.save()
 
-def gundegis(request):
-    pickRest()
-    return HttpResponseRedirect('/statistics/')
 
