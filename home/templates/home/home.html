@@ -2,11 +2,13 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<!-- home ekranina hava durumu eklentisi ekliyor --> 
-<form metod = "POST">
+<!-- home ekranina hava durumu eklentisi ekliyor -->
+<form method = "POST">
 <a href="https://www.accuweather.com/en/tr/istanbul/318251/weather-forecast/318251" class="aw-widget-legal">
 
 </a><div id="awcc1489525705053" class="aw-widget-current"  data-locationkey="318251" data-unit="c" data-language="en-us" data-useip="false" data-uid="awcc1489525705053"></div>
 <script type="text/javascript" src="https://oap.accuweather.com/launch.js"></script>
 </form>
+
+<form method="post", action="/"> {% csrf_token %} <button class="btn btn-success" type="submit"> Run </button></form>
 {% endblock %}

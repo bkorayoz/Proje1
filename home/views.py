@@ -7,10 +7,15 @@ from django.contrib import messages
 from restaurant.models import Restaurant
 from calculation.models import Result
 from home.forms import UserForm
+from calculation.views import backThread
 import logging
 import requests
 
 def home(request):
+    if request.method == 'POST':
+        backGroundThread = backThread("Calculation")
+        backGroundThread.start()
+        return HttpResponseRedirect('/statistics')
     return render(request, 'home/home.html')
 
 def statistics(request):
@@ -98,14 +103,14 @@ def saveGrades(request):
               count = count +int(g)
          if count > pv:
             controlFlag = False
-            
+
          for g in grades:
             if int(g) > count/2:
                 controlFlag = False
-            
+
          if controlFlag:
              Users.objects.filter(id = uid).update(flag = True)
-             
+
              if userGrade.exists():
                  while i < counter:
                      Grade.objects.select_related().filter(user_id = uid, rest_id = rids[i]).update(grade = grades[i])
@@ -117,7 +122,7 @@ def saveGrades(request):
                      i = i + 1
          #else:
             # HATALI GIRIS
-                        
+
     return HttpResponseRedirect('/grading/')
 
 
