@@ -1,5 +1,4 @@
 python==3.5
-django==1.10.1
 adal==0.4.5
 applicationinsights==0.10.0
 argcomplete==1.8.2
