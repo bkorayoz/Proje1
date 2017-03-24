@@ -14,6 +14,7 @@ from django.db.models import F
 import requests
 import time
 from random import randint
+from django.core.mail import send_mail
 
 def start(request):
     if request.method == 'POST':
@@ -209,6 +210,7 @@ def pickRest():
     cr = Restaurant.objects.get(id = index)
     cr.counter -= 1
     cr.save()
+    
 
     newResult = Result(rest_id = cr.id, day = cDay, date = datetime.datetime.now(), weather = w_c)
     newResult.save()
@@ -216,5 +218,11 @@ def pickRest():
     currentDay = Constants.objects.get(name = 'currentday')
     currentDay.value += 1
     currentDay.save()
+    
+    Res = Result.objects.get(day = cDay)
+    kullanici = Users.objects.all()
+   
+    for k in kullanici:
+            send_mail('Gunun Restauranti', 'Tarih:' + str(Res.date) + ' ---> Bugunun restauranti: ' + str(Res.rest.name), 'noreply.neredeyesek@gmail.com', [k.userMail], fail_silently=False)
 
 
