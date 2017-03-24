@@ -12,10 +12,24 @@ import logging
 import requests
 
 def home(request):
+    cday = 0
     if Constants.objects.filter(name = 'isAlgorithmOn').count() == 0:
          newConstant = Constants(name='isAlgorithmOn', value = 0)
          newConstant.save()
-    return render(request, 'home/home.html')
+         flag = False
+         
+    else:
+        algo = Constants.objects.get(name = 'isAlgorithmOn')
+        if algo.value == 0:
+            flag = False
+        else:
+            flag = True
+            cdayobj = Constants.objects.get(name = 'currentday')
+            cday = cdayobj.value - 1
+            
+    currentrest = Result.objects.filter(day = cday)
+
+    return render(request, 'home/home.html',Context({'flag':flag , 'rest':currentrest}))
 
 def resetAlgo(request):
     if request.method == 'POST':

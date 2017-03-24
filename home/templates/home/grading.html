@@ -11,7 +11,7 @@
  {% else %}   
 {% if not period %}
      <h3> Please enter the period before start grading:</h3>
-     <input type="number" name="period" min="30" max="999">
+     <input type="number" name="period" min="30" max="999" required>
 <button type="submit" formaction="/enterPeriod/"   class="btn btn-yesil btn-lg"> Submit</button>
 
 {% elif Users %}

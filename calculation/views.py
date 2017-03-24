@@ -127,12 +127,8 @@ def standard():
 def pickRest():
     currentDay = Constants.objects.get(name = 'currentday')
     cDay = currentDay.value
-    #w_c = hava()
-    tempi = randint(0,10)
-    if tempi > 7:
-        w_c = False
-    else:
-        w_c = True
+    w_c = hava()
+
 
     musaitRests = Restaurant.objects.filter(counter__gt = 0).order_by('-counter')
     
@@ -222,7 +218,7 @@ def pickRest():
     Res = Result.objects.get(day = cDay)
     kullanici = Users.objects.all()
    
-    for k in kullanici:
-            send_mail('Gunun Restauranti', 'Tarih:' + str(Res.date) + ' ---> Bugunun restauranti: ' + str(Res.rest.name), 'noreply.neredeyesek@gmail.com', [k.userMail], fail_silently=False)
+   # for k in kullanici:
+        #    send_mail('Gunun Restauranti', 'Tarih:' + str(Res.date) + ' ---> Bugunun restauranti: ' + str(Res.rest.name), 'noreply.neredeyesek@gmail.com', [k.userMail], fail_silently=False)
 
 
