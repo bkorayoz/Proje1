@@ -6,8 +6,9 @@
 <form method="POST">
     {% csrf_token %}
  {% if algo %}
- algorithm on...
- <button type="submit" formaction="/resetAlgo/"   class="btn btn-yesil btn-lg"> Reset</button>
+ <h4 class="bg-danger">Nothing to grade because application is running! You can stop it with Reset button. <b>But It will cause to lost all current results and grades data</b></h4>
+ 
+ <button type="submit" formaction="/resetAlgo/"   class="btn btn-danger btn-lg">Reset</button>
  {% else %}   
 {% if not period %}
      <h3> Please enter the period before start grading:</h3>
@@ -39,7 +40,7 @@
 
 
 {% if not IsGradingDone %}
-<p class="bg-danger">Grading is not finished yet! Keep grading! </p>
+<p class="bg-danger">Grading is not finished yet! Keep grading! When an acceptable input is entered, the sign will be changed to "<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>" </p>
 {% else %}
 <button type="submit" formaction="/calculation/"  class="btn btn-danger btn-lg">Let the calculation begin!</button>
 {% endif %}

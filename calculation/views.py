@@ -33,9 +33,14 @@ class backThread(Thread):
         period = Constants.objects.get(name = 'period').value
         counter = period
         while counter > 0 :
-            pickRest()
-            counter = counter - 1
-            time.sleep(2)
+            now = datetime.datetime.now()
+            saat10 = now.replace(hour=10, minute=0, second=0, microsecond=0)
+            saat1030 = now.replace(hour=10, minute=30, second=0, microsecond=0)
+            if ((now > saat10) and (now < saat1030)) or counter == period:
+                pickRest()
+                counter = counter - 1
+
+            time.sleep(1200) # 20 dk da bir kontrol ediyor
 
 
 def app(request):
@@ -218,7 +223,7 @@ def pickRest():
     Res = Result.objects.get(day = cDay)
     kullanici = Users.objects.all()
    
-   # for k in kullanici:
-        #    send_mail('Gunun Restauranti', 'Tarih:' + str(Res.date) + ' ---> Bugunun restauranti: ' + str(Res.rest.name), 'noreply.neredeyesek@gmail.com', [k.userMail], fail_silently=False)
+    for k in kullanici:
+            send_mail('Gunun Restauranti', 'Tarih:' + str(Res.date) + ' ---> Bugunun restauranti: ' + str(Res.rest.name), 'noreply.neredeyesek@gmail.com', [k.userMail], fail_silently=False)
 
 

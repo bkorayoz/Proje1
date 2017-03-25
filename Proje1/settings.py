@@ -121,9 +121,9 @@ USE_L10N = True
 
 USE_TZ = True
 
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'neredeyesek'
-EMAIL_HOST_PASSWORD = 'y08patenodasi'
+EMAIL_HOST = 'outgoing.itu.edu.tr'
+EMAIL_HOST_USER = 'ozbul'
+EMAIL_HOST_PASSWORD = ';CER95ra93DO)'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
