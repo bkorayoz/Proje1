@@ -1,5 +1,4 @@
-{% extends 'home/layout.html' %}
-{% block title %}Home{% endblock %}
+{% extends 'home/layout.html' %} {% block title %}Home{% endblock %}
 {%block content %}
 
 <!-- home ekranina hava durumu eklentisi ekliyor -->
@@ -12,14 +11,80 @@
 <script type="text/javascript"
 	src="https://oap.accuweather.com/launch.js"></script>
 
-{% if flag %}
+
 <br>
 <br>
+
+<div class="jumbotron">
+
+	<h1>Hi ...!</h1>
+
+	{% if flag %} <br>
+	<h4>
+		<b>Restaurant of Today</b>
+	</h4>
+
+	{% for r in rest %}
+	<h2>
+		<b>" {{r.rest.name}} "</b>
+	</h2>
+	{% endfor %} {% endif %}
+</div>
+
 <br>
 <br>
-<h4>
-	<b>Restaurant of Today</b>
-</h4>
-{% for r in rest %}
-<p>{{r.rest.name}}</p>
-{% endfor %} {% endif %} {% endblock %}
+
+<div class="row">
+	<div class="col-md-4">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4>
+					<i class="glyphicon glyphicon-glass"> </i> <b>Add New Resaurant
+						!</b>
+				</h4>
+			</div>
+			<div class="panel-body">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+					Itaque, optio corporis quae nulla aspernatur in alias at numquam?</p>
+				<br> <a href="/restaurants" class="btn btn-default">Add here!</a>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4>
+					<i class="glyphicon glyphicon-heart"></i> <b>Grade Them!</b>
+				</h4>
+			</div>
+			<div class="panel-body">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+					Itaque, optio corporis quae nulla aspernatur in alias at numquam?</p>
+				<br> <a href="/grading" class="btn btn-default">Grade here !</a>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4>
+					<i class="glyphicon glyphicon-check"></i> <b>Go calculation !</b>
+				</h4>
+			</div>
+			<div class="panel-body">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+					Itaque, optio corporis quae nulla aspernatur in alias at numquam?</p>
+				<br> <a href="/statistics" class="btn btn-default">Statistics</a>
+			</div>
+		</div>
+	</div>
+
+
+</div>
+<br>
+<br>
+
+
+{% endblock %}
+
+

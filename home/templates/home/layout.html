@@ -10,9 +10,9 @@
 	type='text/css' />
 
 
-	<link rel="stylesheet" href="{% static 'css/component.css'%}"
+<link rel="stylesheet" href="{% static 'css/component.css'%}"
 	type="text/css" />
-	<link rel="stylesheet" href="{% static 'css/lavish-bootstrap.css' %}"
+<link rel="stylesheet" href="{% static 'css/lavish-bootstrap.css' %}"
 	type='text/css' />
 
 <link rel="stylesheet" href="{% static 'css/bootstrap-toggle.min.css'%}"
@@ -43,7 +43,7 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav nav-tabs">
-					<li><a href="/restaurants" ><b>Restaurants</b></a></li>
+					<li><a href="/restaurants"><b>Restaurants</b></a></li>
 					<li><a href="/users"><b>Users</b></a></li>
 					<li><a href="/grading"><b>Grading</b></a></li>
 					<li><a href="/statistics"><b>Statistics</b></a></li>
@@ -73,10 +73,12 @@
 	<!-- jQuery Version 1.11.1 -->
 
 	<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/jquery-3.1.1.min.js'%}"></script>
+	<script type="text/javascript"
+		src="{% static 'js/jquery-3.1.1.min.js'%}"></script>
 	<!-- Bootstrap Core JavaScript -->
 	<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/modernizr.custom.js' %}"></script>
+	<script type="text/javascript"
+		src="{% static 'js/modernizr.custom.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/classie.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/modalEffects.js' %}"></script>
 	<script>
@@ -84,21 +86,16 @@
 		var polyfilter_scriptpath = '/js/';
 	</script>
 	<script type="text/javascript" src="{% static 'js/cssParser.js' %}"></script>
-<!-- 	<script src="{% static 'js/css-filters-polyfill.js' %}"></script> -->
-	<script type="text/javascript" src="{% static 'js/bootstrap-toggle.min.js' %}"></script>
+	<!-- 	<script src="{% static 'js/css-filters-polyfill.js' %}"></script> -->
+	<script type="text/javascript"
+		src="{% static 'js/bootstrap-toggle.min.js' %}"></script>
 	<script type="text/javascript">
-		$(document).ready(function(){
-   			 $('[data-toggle="popover"]').popover({
-        	 placement : 'top',
-        	 trigger : 'hover'
-    		});
+		$(document).ready(function() {
+			$('[data-toggle="popover"]').popover({
+				placement : 'top',
+				trigger : 'hover'
+			});
 		});
 	</script>
-
-
-
-
-
-
 </body>
 </html>
