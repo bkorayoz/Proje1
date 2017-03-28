@@ -27,6 +27,14 @@ class backThread(Thread):
         Thread.__init__(self)
         self.name = name
 
+#    def run(self):
+#        standard()
+#        period = Constants.objects.get(name = 'period').value
+#        counter = period
+#        while counter > 0 :
+#            pickRest()
+#            counter = counter - 1
+#            time.sleep(2)
 
     def run(self):
         standard()
@@ -71,7 +79,7 @@ def standard():
     else:
         newConstant = Constants(name='currentday', value = 1)
         newConstant.save()
-        
+
     if Constants.objects.filter(name = 'isAlgorithmOn').count() > 0:
         Constants.objects.filter(name='isAlgorithmOn').update(value = 1)
     else:
@@ -137,7 +145,7 @@ def pickRest():
 
 
     musaitRests = Restaurant.objects.filter(counter__gt = 0).order_by('-counter')
-    
+
     if cDay > 1 and musaitRests.count() != 1 : # onceki gun ile ayni olmasin
         formerRest = Result.objects.last()
         restId = formerRest.rest_id
@@ -162,36 +170,36 @@ def pickRest():
 
         if (rest1.transportation or rest2.transportation) and musaitRests.count() != 1 :
             musaitRests = musaitRests.exclude(transportation = True)
-    
+
     period = Constants.objects.get(name = 'period')
     pv = period.value
-    
+
     remainingDay = pv - cDay
     remainingBadWDay = 0
     rests = Restaurant.objects.filter(weatherSensetion = True)
     for r in rests:
         remainingBadWDay = remainingBadWDay + r.counter
-    
+
     remainingCarDay = 0
     rests = Restaurant.objects.filter(transportation = True)
     for r in rests:
         remainingCarDay = remainingCarDay + r.counter
-        
+
     if remainingBadWDay * 2 > remainingDay:
         restcount = musaitRests.filter(weatherSensetion = True).count()
         if restcount > 0 :
             musaitRests = musaitRests.exclude(weatherSensetion = False)
-        
+
     if remainingCarDay * 3 > remainingDay:
          restcount = musaitRests.filter(transportation = True).count()
          if restcount > 0 :
             musaitRests = musaitRests.exclude(transportation = False)
-        
-        
+
+
     if musaitRests.count() == 0: # elemeler sonunda sonuc bulamadiysak kalanlarin hepsini getir
         musaitRests = Restaurant.objects.filter(counter__gt = 0)
-        
-        
+
+
     min = musaitRests.last()
     perfectRate = min.totalDay / pv
     if cDay < pv:
@@ -199,7 +207,7 @@ def pickRest():
             rate = rests.counter/(pv - cDay)
             if musaitRests.count() > 1 and rate< perfectRate:
                 musaitRests = musaitRests.exclude(id = rests.id)
-    
+
     rlist = []
     for m in musaitRests:
        for count  in range(0,m.counter):
@@ -212,7 +220,7 @@ def pickRest():
     cr = Restaurant.objects.get(id = index)
     cr.counter -= 1
     cr.save()
-    
+
 
     newResult = Result(rest_id = cr.id, day = cDay, date = datetime.datetime.now(), weather = w_c)
     newResult.save()
@@ -220,10 +228,10 @@ def pickRest():
     currentDay = Constants.objects.get(name = 'currentday')
     currentDay.value += 1
     currentDay.save()
-    
+
     Res = Result.objects.get(day = cDay)
     kullanici = Users.objects.all()
-   
+
     for k in kullanici:
             send_mail('Gunun Restauranti', 'Tarih:' + str(Res.date) + ' ---> Bugunun restauranti: ' + str(Res.rest.name), 'noreply.neredeyesek@gmail.com', [k.userMail], fail_silently=False)
 

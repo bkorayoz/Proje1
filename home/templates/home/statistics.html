@@ -1,70 +1,169 @@
-{% extends 'home/layout.html' %}
-
-{% block title %}Statistics{% endblock %}
-
+{% extends 'home/layout.html' %} {% block title %}Statistics{%endblock%}
 {% block content %}
 <form method="POST">
-    {% csrf_token %}
- {% if algo %}
-{% for c in cday %} 
- <p class="bg-info"><b>Current Day:</b> {{ c.value }}</p>
- {% endfor %}
- 
- {% for p in period %} 
- <p class="bg-danger"><b>Total Day:</b> {{ p.value }}</p>
- {% endfor %}
-<table class="table table-responsive table-inverse table-bordered">
-<thead>
-<tr><td><b> Restaurant Name</b> </td><td><b> Total Day</b> </td><td><b> Remaining Day</b> </td> </tr>
- </thead>
-{% for r in rests %}
+	<div class="container">
+		{% csrf_token %} {% if algo %}
+		<div class="row">
+			<section class="content">
+				<h1>Results</h1>
+				<div class="col-md-8 col-md-offset-2">
+					<div class="panel panel-default">
+						<div class="panel-body">
 
-<tr><td> {{r.name}} </td><td> {{r.totalDay}} </td><td> {{r.counter}} </td></tr>
-{% endfor %}
+							<div class="pull-right">
+								{% for c in cday %}
+								<h2>
+									<b>Current Day:</b> {{ c.value }}
+								</h2>
+								{% endfor %}
+								<div class="pull-right">
+									{% for p in period %}
+									<p>
+										<b>Total Day:</b> {{ p.value }}
+									</p>
+									{% endfor %}
+								</div>
+							</div>
+							<div class="table-container">
+								<table class="table table-filter">
+									<thead>
+										<tr>
+											<td></td>
+											<td><b> Restaurant Name</b></td>
+											<td><b> Total Day</b></td>
+											<td><b> Remaining Day</b></td>
+										</tr>
+									</thead>
+									<tbody>
+										{% for r in rests %}
 
-</table>
-<br>
-<br>
-{% if results %}
-<table class="table table-responsive table-inverse table-bordered">
-<thead>
-<tr><td><b> Day</b> </td><td><b> Date</b> </td> <td><b> Weather </b> </td><td><b> Restaurant Name</b> </td><td><b> Does it need ride?</b> </td><td><b> Weather Sensation</b> </td> </tr>
-</thead>
-{% for r in results %}
+										<tr>
+											<td><a href="#" class="pull-left"> <img
+													src="/static/images/Graphicloads-Flat-Finance-Dollar-stats.ico"
+													width="33" height="33">
+											</a></td>
+											<td>
+												<div class="media">
+													<div class="media-body">
+														<h3 class="title">{{r.name}}</h3>
+													</div>
+												</div>
+											</td>
+											<td>
+												<div class="media">
+													<div class="media-body">
+														<h3 class="title">{{r.totalDay}} days</h3>
+													</div>
+												</div>
+											</td>
+											<td>
+												<div class="media">
+													<div class="media-body">
+														<h3 class="title">{{r.counter}} days left</h3>
+													</div>
+												</div>
+											</td>
 
-<tr><td> {{r.day}} </td><td> {{r.date}} </td>
-<td> {% if r.weather %}
-Nice
+										</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<br> <br>
+					<h1>Restaurant History</h1>
+					{% if results %}
+					<div class="panel panel-default">
+						<div class="panel-body">
 
-{% else %}
-Bad
-{% endif %}
+							<div class="table-container">
+								<table class="table table-filter">
+									<thead>
+										<tr>
+											<td><b> Day</b></td>
+											<td><b> Date</b></td>
+											<td><b> Weather </b></td>
+											<td><b> Restaurant Name</b></td>
+											<td><b> Does it need ride?</b></td>
+											<td><b> Weather Sensation</b></td>
+										</tr>
+									</thead>
+									{% for r in results %}
+									<tbody>
+										<tr>
+											<td>{{r.day}}</td>
+											<td>
+												<div class="media">
+													<div class="media-body">
+														<h3 class="title">{{r.date}}</h3>
+													</div>
+												</div>
+											</td>
+											<td>
+												<div class="media">
+													<div class="media-body">
+														<h3 class="title">{% if r.weather %} Nice {% else %}
+															Bad {% endif %}</h3>
+													</div>
+												</div>
+											</td>
+											<td>
+												<div class="media">
+													<div class="media-body">
+														<h3 class="title">{{r.rest.name}}</h3>
+													</div>
+												</div>
+											</td>
+											<td>
+												<div class="media">
+													<div class="media-body">
+														<h3 class="title">
+															{% if r.rest.transportation %} <span
+																class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+															{%else %} <span class="glyphicon glyphicon-remove"
+																aria-hidden="true"></span> {% endif %}
+														</h3>
+													</div>
+												</div>
+											</td>
+											<td>
+												<div class="media">
+													<div class="media-body">
+														<h3 class="title">
+															{% if r.rest.weatherSensetion %} <span
+												class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+												{%else %} <span class="glyphicon glyphicon-remove"
+												aria-hidden="true"></span> {% endif %}
+														</h3>
+													</div>
+												</div>
+											</td>
+										</tr>
+										{% endfor %} {% endif %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>
+	</div>
+	</section>
+	</div>
+	{% else %}
+	<div class="jumbotron">
+		<h1>Nothing to show ..!</h1>
+		<h2>Application is currently offline.</h2>
+		<h4>Therefore, there is no statistics to show!</h4>
+		<br> <br> <a> <img
+			src="/static/images/Adium-Bird-Sleep-icon.png" width="55" height="55">
+		</a>
 
-</td> <td> {{r.rest.name}} </td>
-<td> {% if r.rest.transportation %}
-<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+	</div>
+	{% endif %}
 
-{% else %}
-<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 
-{% endif %}
-
-</td><td> {% if r.rest.weatherSensetion %}
-<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-
-{% else %}
-<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-
-{% endif %}
-
-</td>
-</tr>
-{% endfor %}
-{% endif %}
-</table>
+	</div>
 </form>
-{% else %}
-<h3 class="bg-danger">Application is currently offline. Therefore, there is no statistics to show!</h3>
-{% endif %}
-
 {% endblock %}
