@@ -1,18 +1,15 @@
-/*body {
-    background-color: #F4B66A;
-    color: #FFFFFF;
-}
 
-
-.navbar-custom {
-
-	background-color: #73847E;
-	font-color: #000000;
-}
-*/
 body {
 	font-family: 'Open Sans', sans-serif;
 	color: #353535;
+
+
+}
+
+
+.navbar.navbar-custom {
+	background-color:#F0F2ED;
+
 }
 
 .content h1 {
@@ -115,3 +112,9 @@ body {
 .transportInput {
 	float: left;
 }
+
+
+
+
+
+

@@ -6,30 +6,32 @@
 	<div class="md-content">
 
 		<h3>Add New User</h3>
-		<form class="form-horizontal" action="{% url 'home:adduser' %}"
-			method="post">
-			{% csrf_token %}
-			<div class="userName">
-				<label class="pull-left">User Name: </label> <input type="text"
-					class="form-control" name="userName"
-					placeholder="please enter your name here"
-					aria-describedby="basic-addon1" value="{{userName}}" required>
-			</div>
-			<div class="userEmail">
-				<label class="pull-left">E-mail: </label> <input type="email"
-					class="form-control" name="userMail"
-					placeholder="please enter your e-mail here"
-					aria-describedby="basic-addon1" value="{{userMail}}" required>
-			</div>
+		<div>
+			<form class="form-horizontal" action="{% url 'home:adduser' %}"
+				method="post">
+				{% csrf_token %}
+				<div class="userName">
+					<label class="pull-left">User Name: </label> <input type="text"
+						class="form-control" name="userName"
+						placeholder="please enter your name here"
+						aria-describedby="basic-addon1" value="{{userName}}" required>
+				</div>
+				<div class="userEmail">
+					<label class="pull-left">E-mail: </label> <input type="email"
+						class="form-control" name="userMail"
+						placeholder="please enter your e-mail here"
+						aria-describedby="basic-addon1" value="{{userMail}}" required>
+				</div>
+				<hr></hr>
+				<div class="btn-group">
+					<button class="btn btn-success" type="submit" value="OK">Add
+						User</button>
+					<button class="btn btn-warning md-close" type="button">Close
+						me!</button>
+				</div>
 
-			<div class="btn-group">
-				<button class="btn btn-success" type="submit" value="OK">Add
-					User</button>
-				<button class="btn btn-warning md-close" type="button">Close
-					me!</button>
-			</div>
-
-		</form>
+			</form>
+		</div>
 	</div>
 </div>
 
@@ -54,7 +56,7 @@
 									{% for user in Users %}
 									<tr>
 										<td><a href="#" class="pull-left"> <img
-												src="/static/images/Pirate-Creature-icon-2.png" width="33"
+												src="/static/images/Creativeflip-Starwars-Longshadow-Flat-Stormtrooper.ico" width="33"
 												height="33">
 										</a></td>
 										<td>
@@ -95,68 +97,5 @@
 
 
 
-<!-- Button trigger modal -->
-<!-- <button class="btn btn-success md-trigger md-setperspective" -->
-<!-- 	data-modal="modal-16">Add User</button> -->
-<!-- 	<!-- Modal -->
 
-<!-- 	<div class="modal fade" id="myModal" tabindex="-s" role="dialog" -->
-<!-- 		aria-labelledby="myModalLabel"> -->
-<!-- 		<div class="modal-dialog" role="document"> -->
-<!-- 			<div class="modal-content"> -->
-<!-- 				<div class="modal-header"> -->
-<!-- 					<button type="button" class="close" data-dismiss="modal" -->
-<!-- 						aria-label="Close"> -->
-<!-- 						<span aria-hidden="true">&times;</span> -->
-<!-- 					</button> -->
-<!-- 					<h4 class="modal-title" id="myModalLabel">Add User</h4> -->
-<!-- 				</div> -->
-<!-- 				<div class="modal-body"> -->
-<!-- 					<div class="input-group"> -->
-
-<!-- 						<input type="text" class="form-control" name="userName" -->
-<!-- 							placeholder="Username" aria-describedby="basic-addon1"> <input -->
-<!-- 							type="email" class="form-control" name="userMail" -->
-<!-- 							placeholder="E-Mail" aria-describedby="basic-addon1"> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 				<div class="modal-footer"> -->
-<!-- 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
-<!-- 					<button type="submit" formaction="/addUser/" value="add" -->
-<!-- 						class="btn btn-yesil">Add</button> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
-<!-- {% if Users %} -->
-<!-- <table class="table table-bordered"> -->
-<!-- 	<thead> -->
-<!-- 		<tr> -->
-<!-- 			<td><b>Username</b></td> -->
-<!-- 			<td><b>Email</b></td> -->
-<!-- 			<td><b>Delete User</b></td> -->
-<!-- 		</tr> -->
-<!-- 		<br> -->
-<!-- 		<br> -->
-<!-- 	</thead> -->
-<!-- 	<tbody> -->
-<!-- 		{% for user in Users %} -->
-<!-- 		<tr> -->
-<!-- 			<td>{{ user.userName }}</td> -->
-<!-- 			<td>{{ user.userMail }}</td> -->
-<!-- 			<td> -->
-<!-- 				<button type="submit" name="id" value="{{user.id}}" -->
-<!-- 					formaction="/deleteUser/" class="btn btn-danger btn-xs" -->
-<!-- 					aria-label="Left Align"> -->
-<!-- 					<span class="glyphicon glyphicon glyphicon-remove" -->
-<!-- 						aria-hidden="true"></span> -->
-<!-- 				</button> -->
-<!-- 			</td> -->
-<!-- 		</tr> -->
-<!-- 		{% endfor %} -->
-<!-- 	</tbody> -->
-
-<!-- </table> -->
-<!-- {% endif %} -->
-<!-- </form> -->
 {% endblock %}

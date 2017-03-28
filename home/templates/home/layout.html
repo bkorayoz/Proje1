@@ -5,22 +5,28 @@
 
 {% load static from staticfiles %}
 <!-- Bootstrap Core CSS -->
+
 <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"
 	type='text/css' />
-<link rel="stylesheet" href="{% static 'css/lavish-bootstrap.css' %}"
-	type='text/css' />
-<link rel="stylesheet" href="{% static 'css/ourstyle.css' %}"
-	type='text/css' />
-<link rel="stylesheet" href="{% static 'css/component.css'%}"
+
+
+	<link rel="stylesheet" href="{% static 'css/component.css'%}"
 	type="text/css" />
+	<link rel="stylesheet" href="{% static 'css/lavish-bootstrap.css' %}"
+	type='text/css' />
+
 <link rel="stylesheet" href="{% static 'css/bootstrap-toggle.min.css'%}"
 	type="text/css" />
+<link rel="stylesheet" href="{% static 'css/ourstyle.css' %}"
+	type='text/css' />
+
 
 <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
 	<!-- Navigation -->
-	<nav class="navbar navbar-inverse " role="navigation">
+
+	<nav class="navbar nav-tabs" role="navigation">
 		<div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -30,30 +36,33 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" style="color: orange;" href="/"><b>Ne
-						Yiyek?</b></a>
+				<a class="navbar-brand" style="color: green;" href="/"><b>Ne
+						Yesek?</b></a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav">
-					<li><a href="/restaurants">Restaurants</a></li>
-					<li><a href="/users">Users</a></li>
-					<li><a href="/grading">Grading</a></li>
-					<li><a href="/statistics">Statistics</a></li>
+				<ul class="nav nav-tabs">
+					<li><a href="/restaurants" ><b>Restaurants</b></a></li>
+					<li><a href="/users"><b>Users</b></a></li>
+					<li><a href="/grading"><b>Grading</b></a></li>
+					<li><a href="/statistics"><b>Statistics</b></a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container -->
+
 	</nav>
 
+
 	<!-- Page Content -->
+
 	<div class="container">
 
 		<div class="row">
 			<div class="col-lg-12 text-center">{% block content %}
-			{%endblock %}</div>
+				{%endblock %}</div>
 		</div>
 		<!-- /.row -->
 
@@ -63,20 +72,33 @@
 	{% load static from staticfiles %}
 	<!-- jQuery Version 1.11.1 -->
 
-	<script src="{% static 'js/jquery.js' %}"></script>
-
+	<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/jquery-3.1.1.min.js'%}"></script>
 	<!-- Bootstrap Core JavaScript -->
-	<script src="{% static 'js/bootstrap.min.js' %}"></script>
-	<script src="{% static 'js/modernizr.custom.js' %}"></script>
-	<script src="{% static 'js/classie.js' %}"></script>
-	<script src="{% static 'js/modalEffects.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/modernizr.custom.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/classie.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/modalEffects.js' %}"></script>
 	<script>
 		// this is important for IEs
 		var polyfilter_scriptpath = '/js/';
 	</script>
-	<script src="{% static 'js/cssParser.jss' %}"></script>
-	<script src="{% static 'js/css-filters-polyfill.jss' %}"></script>
-	<script src="{% static 'js/bootstrap-toggle.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/cssParser.js' %}"></script>
+<!-- 	<script src="{% static 'js/css-filters-polyfill.js' %}"></script> -->
+	<script type="text/javascript" src="{% static 'js/bootstrap-toggle.min.js' %}"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+   			 $('[data-toggle="popover"]').popover({
+        	 placement : 'top',
+        	 trigger : 'hover'
+    		});
+		});
+	</script>
+
+
+
+
+
 
 </body>
 </html>

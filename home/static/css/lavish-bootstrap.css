@@ -2197,19 +2197,23 @@ th {
     padding: 8px;
     line-height: 1.42857;
     vertical-align: top;
-    border-top: 1px solid #65A730; }
-  .table > thead > tr > th {
-    vertical-align: bottom;
-    border-bottom: 2px solid #65A730; }
+
+
+}
+/*   .table > thead > tr > th { */
+/*     vertical-align: bottom; */
+/*     border-bottom: 2px solid #65A730; } */}
   .table > caption + thead > tr:first-child > th,
   .table > caption + thead > tr:first-child > td,
   .table > colgroup + thead > tr:first-child > th,
   .table > colgroup + thead > tr:first-child > td,
   .table > thead:first-child > tr:first-child > th,
   .table > thead:first-child > tr:first-child > td {
-    border-top: 0; }
+/*     border-top: 0; */
+     }
   .table > tbody + tbody {
-    border-top: 2px solid #65A730; }
+/*     border-top: 2px solid #65A730; */
+     }
   .table .table {
     background-color: #F0F2ED; }
 
@@ -3718,9 +3722,9 @@ tbody.collapse.in {
   padding: 9px 10px;
   margin-top: 8px;
   margin-bottom: 8px;
-  background-color: transparent;
+  background-color: rgba(141, 187, 49, 0.38);;
   background-image: none;
-  border: 1px solid transparent;
+  border: 1px solid #3c763d;
   border-radius: 4px; }
   .navbar-toggle:focus {
     outline: 0; }
@@ -4210,7 +4214,7 @@ a.badge:hover, a.badge:focus {
   padding: 30px 15px;
   margin-bottom: 30px;
   color: inherit;
-  background-color: #C6DAA0; }
+  background-color: rgba(198, 218, 160, 0.64); }
   .jumbotron h1,
   .jumbotron .h1 {
     color: inherit; }

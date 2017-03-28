@@ -1,70 +1,74 @@
 {% extends 'home/layout.html' %}
-
-{% block title %}Statistics{% endblock %}
-
+{% block title %}Statistics{% endblock%}
 {% block content %}
 <form method="POST">
-    {% csrf_token %}
- {% if algo %}
-{% for c in cday %} 
- <p class="bg-info"><b>Current Day:</b> {{ c.value }}</p>
- {% endfor %}
- 
- {% for p in period %} 
- <p class="bg-danger"><b>Total Day:</b> {{ p.value }}</p>
- {% endfor %}
-<table class="table table-responsive table-inverse table-bordered">
-<thead>
-<tr><td><b> Restaurant Name</b> </td><td><b> Total Day</b> </td><td><b> Remaining Day</b> </td> </tr>
- </thead>
-{% for r in rests %}
+	{% csrf_token %} {% if algo %} {% for c in cday %}
+	<p class="bg-info">
+		<b>Current Day:</b> {{ c.value }}
+	</p>
+	{% endfor %} {% for p in period %}
+	<p class="bg-danger">
+		<b>Total Day:</b> {{ p.value }}
+	</p>
 
-<tr><td> {{r.name}} </td><td> {{r.totalDay}} </td><td> {{r.counter}} </td></tr>
-{% endfor %}
 
-</table>
-<br>
-<br>
-{% if results %}
-<table class="table table-responsive table-inverse table-bordered">
-<thead>
-<tr><td><b> Day</b> </td><td><b> Date</b> </td> <td><b> Weather </b> </td><td><b> Restaurant Name</b> </td><td><b> Does it need ride?</b> </td> ><td><b> Weather Sensation</b> </td> </tr>
- </thead>
-{% for r in results %}
+	{% endfor %}
 
-<tr><td> {{r.day}} </td><td> {{r.date}} </td>
-<td> {% if r.weather %}
-Nice
+	<canvas id="barChart"></canvas>
+	<table class="table table-responsive table-inverse table-bordered">
+		<thead>
+			<tr>
+				<td><b> Restaurant Name</b></td>
+				<td><b> Total Day</b></td>
+				<td><b> Remaining Day</b></td>
+			</tr>
+		</thead>
+		{% for r in rests %}
 
-{% else %}
-Bad
-{% endif %}
+		<tr>
+			<td>{{r.name}}</td>
+			<td>{{r.totalDay}}</td>
+			<td>{{r.counter}}</td>
+		</tr>
+		{% endfor %}
 
-</td> <td> {{r.rest.name}} </td>
-<td> {% if r.rest.transportation %}
-<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+	</table>
+	<br> <br> {% if results %}
+	<table class="table table-responsive table-inverse table-bordered">
+		<thead>
+			<tr>
+				<td><b> Day</b></td>
+				<td><b> Date</b></td>
+				<td><b> Weather </b></td>
+				<td><b> Restaurant Name</b></td>
+				<td><b> Does it need ride?</b></td> >
+				<td><b> Weather Sensation</b></td>
+			</tr>
+		</thead>
+		{% for r in results %}
 
-{% else %}
-<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+		<tr>
+			<td>{{r.day}}</td>
+			<td>{{r.date}}</td>
+			<td>{% if r.weather %} Nice {% else %} Bad {% endif %}</td>
+			<td>{{r.rest.name}}</td>
+			<td>{% if r.rest.transportation %} <span
+				class="glyphicon glyphicon-ok" aria-hidden="true"></span> {% else %}
+				<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 
-{% endif %}
+				{% endif %}
 
-</td><td> {% if r.rest.weatherSensetion %}
-<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			</td>
+			<td>{% if r.rest.weatherSensetion %} <span
+				class="glyphicon glyphicon-ok" aria-hidden="true"></span> {% else %}
+				<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 
-{% else %}
-<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+				{% endif %}
 
-{% endif %}
-
-</td>
-</tr>
-{% endfor %}
-{% endif %}
-</table>
+			</td>
+		</tr>
+		{% endfor %} {% endif %}
+	</table>
 </form>
-{% else %}
-algorithm off// no statistic to show
-{% endif %}
-
-{% endblock %}
+{% else %} algorithm off// no statistic to show {% endif %}
+{% endblock%}

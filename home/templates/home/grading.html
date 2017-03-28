@@ -1,50 +1,124 @@
-{% extends 'home/layout.html' %}
-
-{% block title %}Grading{% endblock %}
+{% extends 'home/layout.html' %} {% block title %}Grading{% endblock %}
 
 {% block content %}
 <form method="POST">
-    {% csrf_token %}
- {% if algo %}
- algorithm on...
- <button type="submit" formaction="/resetAlgo/"   class="btn btn-yesil btn-lg"> Reset</button>
- {% else %}   
-{% if not period %}
-     <h3> Please enter the period before start grading:</h3>
-     <input type="number" name="period" min="30" max="999">
-<button type="submit" formaction="/enterPeriod/"   class="btn btn-yesil btn-lg"> Submit</button>
+	<div class="container">
+		{% csrf_token %} {% if algo %}
+		<div class="jumbotron">
+			<h1>Nothing to grade ..!</h1>
+			<h2>Because application is running.</h2>
+			<h4>.....</h4>
+			<p>You can stop it with Reset button.</p>
+			<p>
+				<b>But It will cause to lost all current results and grades</b>
+			</p>
+			<button type="submit" formaction="/resetAlgo/"
+				class="btn btn-danger btn-lg">Reset</button>
 
-{% elif Users %}
-{% for p in period %} 
- <p class="bg-danger"><b>Current period:</b> {{ p.value }} <br> <i> You can change the period this will led to lose all your grade data </i> <br> <button type="submit" formaction="/editPeriod/" name="user_id" value= "{{user.id}}" class="btn btn-danger btn-sm">Change it!</button></p>
- {% endfor %}
-<table class="table table-responsive table-inverse table-bordered">
-{% for user in Users %}
-     <tbody>  <tr> <td>{{ user.userName }}</td> <td> <button type="submit" formaction="/gradeIt/" name="user_id" value= "{{user.id}}" class="btn btn-yesil btn-xs">
-  Grade them!
-</button> </td>
+		</div>
 
-<td> {% if user.flag %}
-<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-
-{% else %}
-<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-
-{% endif %}
-
-</td> </tr>
-{% endfor %}
-</tbody>
-</table>
+		{% else %} {% if not period %}
+		<div class="jumbotron">
+			<h1>Hi ..!</h1>
+			<h3>Please enter the period before start grading:</h3>
+			<div>
+				<input type="number" name="period" min="30" max="999" required>
+				<hr>
+			</div>
+			<div>
+				<button type="submit" formaction="/enterPeriod/"
+					class="btn btn-primary btn-lg">Submit</button>
+			</div>
+		</div>
 
 
-{% if not IsGradingDone %}
-<p class="bg-danger">Grading is not finished yet! Keep grading! </p>
-{% else %}
-<button type="submit" formaction="/calculation/"  class="btn btn-danger btn-lg">Let the calculation begin!</button>
-{% endif %}
-{% endif %}
-{% endif %}
+		{% elif Users %}
+		<!-- 		{% for p in period %} -->
+		<!-- 		<p class="bg-warning"> -->
+		<!-- 			<b>Current period:</b> {{ p.value }} <br> <i> You can change -->
+		<!-- 				the period this will led to lose all your grade data </i> <br> -->
+		<!-- 			<button type="submit" formaction="/editPeriod/" name="user_id" -->
+		<!-- 				value="{{user.id}}" class="btn btn-danger btn-sm">Change -->
+		<!-- 				it!</button> -->
+		<!-- 		</p> -->
+		<!-- 		{% endfor %} -->
+
+		<div class="row">
+			<section class="content">
+				<h1>Grading</h1>
+				<div class="col-md-8 col-md-offset-2">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="pull-right">
+								<div class="btn-group">
+									<button class="btn btn-success">Selam</button>
+									<button type="submit" formaction="/editPeriod/" name="user_id"
+										value="{{user.id}}" class="btn btn-warning"
+										title="Warning !..." data-toggle="popover"
+										data-trigger="hover"
+										data-content="This will led to lose all your grade data">Change
+										Period!</button>
+								</div>
+							</div>
+							<div class="table-container">
+								<table class="table table-filter">
+									<tbody>
+										{% for user in Users %}
+										<tr>
+											<td><a href="#" class="pull-left"> <img
+													src="/static/images/Webalys-Kameleon.pics-Analytics.ico"
+													width="33" height="33">
+											</a></td>
+											<td>
+												<div class="media">
+													<div class="media-body">
+														<h3 class="title">{{ user.userName }}</h3>
+													</div>
+												</div>
+											</td>
+											<td>
+												<button type="submit" formaction="/gradeIt/" name="user_id"
+													value="{{user.id}}" class="btn btn-primary btn-xs">Grade
+													Restaurants!</button>
+											</td>
+											<td>
+												<div class="pull-right action-buttons">
+													{% if user.flag %} <a><span
+														class="glyphicon glyphicon-ok-sign"></span></a> {%else %} <a><span
+														class="glyphicon glyphicon-remove-sign"></span></a> {%endif %}
+												</div>
+											</td>
+										</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+							{% if not IsGradingDone %}
+							<div class=bg-info>
+								<p>
+									<span class="glyphicon glyphicon-warning-sign"></span> Grading
+									is not finished yet! Keep grading!
+								</p>
+								<p>
+									When an acceptable input is entered, the sign will be changed
+									to <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+								</p>
+							</div>
+							{% else %}
+							<button type="submit" formaction="/calculation/"
+								class="btn btn-danger btn-lg">Let the calculation
+								begin!</button>
+							{% endif %} {% endif %} {% endif %}
+
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+
+
+
 </form>
 
 {% endblock %}

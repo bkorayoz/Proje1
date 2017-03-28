@@ -1,27 +1,53 @@
-{% extends 'home/layout.html' %}
-
-{% block title %}Grade It{% endblock %}
+{% extends 'home/layout.html' %} {% block title %}Grade It{% endblock %}
 
 {% block content %}
-<form method="POST" >
-    {% csrf_token %}
-<h2> Grade it for {{user.userName}} </h2>
-<p>Sum of the grades should be less than {{pvalue}}</p>
-<input type="hidden" name="uid" value="{{user.id}}">
+<form method="POST">
+	<div class="container">
+		{% csrf_token %}
 
+		<div class="row">
+			<section class="content">
+				<h2>Grade it for {{user.userName}}</h2>
+				<p>Sum of the grades should be less than {{pvalue}}</p>
+				<input type="hidden" name="uid" value="{{user.id}}">
+				<div class="col-md-8 col-md-offset-2">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="pull-right">
+								<div class="btn-group">
+									<!-- 									<button class="btn btn-success">Selam</button> -->
+									<button type="submit" name="user_id" formaction="/saveGrades/"
+										value="{{user.id}}" class="btn btn-primary">Submit
+										Grades</button>
+								</div>
+							</div>
+							<div class="table-container">
+								<table class="table table-filter">
+									<tbody>
+										{% for r in Restaurant %}
+										<tr>
+											<td><a href="#" class="pull-left"> <img
+													src="/static/images/Graphicloads-Flat-Finance-Market-flow.ico"
+													width="33" height="33">
+											</a></td>
+											<td>{{r.name}}</td>
+											<td><input type="number" name="grade[]" min="0"
+												max="{{pvaluehalf}}" value="0"></td>
+											<input type="hidden" name="rid[]" value="{{r.id}}">
+										</tr>
+									</tbody>
+									{% endfor %}
+								</table>
 
-<table class="table table-bordered table-responsive">
-{% for r in Restaurant %}
-<tr><td>{{r.name}}</td>
-<td> <input type="number" name="grade[]" min="0" max="{{pvaluehalf}}" value="0"> </td>
-<input type="hidden" name="rid[]" value="{{r.id}}" >
-</tr>
-{% endfor %}
-</table>
+								<!-- 								<button type="submit" name="user_id" formaction="/saveGrades/" -->
+								<!-- 									value="{{user.id}}" class="btn btn-yesil btn-lg">Submit!</button> -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
 
- <button type="submit" name="user_id" formaction="/saveGrades/" value= "{{user.id}}" class="btn btn-yesil btn-lg">
-  Submit!
-</button>
-
+	</div>
 </form>
 {% endblock %}
