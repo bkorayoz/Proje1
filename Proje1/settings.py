@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+from django.conf.global_settings import STATIC_ROOT
 #import dj_database_url
 #db_from_env = dj_database_url.config()
 
@@ -128,12 +129,14 @@ EMAIL_HOST_PASSWORD = ';CER95ra93DO)'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 #DATABASES['default'].update(db_from_env)
+STATIC_ROOT = os.path.join(PROJECT_ROOT,'staticfiles')
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = {
+STATICFILES_DIRS = (
         
         os.path.join(PROJECT_ROOT, 'static'),
-    }
+    )
