@@ -14,6 +14,7 @@ from django.db.models import F
 import requests
 import time
 from random import randint
+from django.core.mail import send_mail
 
 def start(request):
     if request.method == 'POST':
@@ -32,9 +33,15 @@ class backThread(Thread):
         period = Constants.objects.get(name = 'period').value
         counter = period
         while counter > 0 :
-            pickRest()
-            counter = counter - 1
-            time.sleep(2)
+            now = datetime.datetime.now()
+            day = date.weekday()
+            saat10 = now.replace(hour=10, minute=0, second=0, microsecond=0)
+            saat1030 = now.replace(hour=10, minute=30, second=0, microsecond=0)
+            if (day != 6) and (day != 5) and (((now > saat10) and (now < saat1030)) or counter == period):
+                pickRest()
+                counter = counter - 1
+
+            time.sleep(1200) # 20 dk da bir kontrol ediyor
 
 
 def app(request):
@@ -126,12 +133,8 @@ def standard():
 def pickRest():
     currentDay = Constants.objects.get(name = 'currentday')
     cDay = currentDay.value
-    #w_c = hava()
-    tempi = randint(0,10)
-    if tempi > 7:
-        w_c = False
-    else:
-        w_c = True
+    w_c = hava()
+
 
     musaitRests = Restaurant.objects.filter(counter__gt = 0).order_by('-counter')
     
@@ -209,6 +212,7 @@ def pickRest():
     cr = Restaurant.objects.get(id = index)
     cr.counter -= 1
     cr.save()
+    
 
     newResult = Result(rest_id = cr.id, day = cDay, date = datetime.datetime.now(), weather = w_c)
     newResult.save()
@@ -216,5 +220,11 @@ def pickRest():
     currentDay = Constants.objects.get(name = 'currentday')
     currentDay.value += 1
     currentDay.save()
+    
+    Res = Result.objects.get(day = cDay)
+    kullanici = Users.objects.all()
+   
+    for k in kullanici:
+            send_mail('Gunun Restauranti', 'Tarih:' + str(Res.date) + ' ---> Bugunun restauranti: ' + str(Res.rest.name), 'noreply.neredeyesek@gmail.com', [k.userMail], fail_silently=False)
 
 
