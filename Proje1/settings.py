@@ -132,3 +132,8 @@ EMAIL_USE_TLS = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 #DATABASES['default'].update(db_from_env)
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = {
+        
+        os.path.join(PROJECT_ROOT, 'static'),
+    }
