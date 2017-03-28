@@ -30,6 +30,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'localhost',
     'neredeyiyek.azurewebsites.net',
+    'neredeyiyelim.herokuapp.com'
     ]
 
 
