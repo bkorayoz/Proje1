@@ -10,6 +10,7 @@ from restaurant.models import Restaurant
 from home.forms import UserForm
 from calculation.models import Result
 import math,random,datetime
+from datetime import date
 from django.db.models import F
 import requests
 import time
@@ -42,10 +43,10 @@ class backThread(Thread):
         counter = period
         while counter > 0 :
             now = datetime.datetime.now()
-            day = date.weekday()
+            day = now.weekday()
             saat10 = now.replace(hour=10, minute=0, second=0, microsecond=0)
             saat1030 = now.replace(hour=10, minute=30, second=0, microsecond=0)
-            if (day != 6) and (day != 5) and (((now > saat10) and (now < saat1030)) or counter == period):
+            if ((day != 6) and (day != 5) and ((now > saat10) and (now < saat1030))) or (counter == period):
                 pickRest()
                 counter = counter - 1
 
